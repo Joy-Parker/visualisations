@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCF Trustee Skills Audit Dashboard</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/recharts@2.8.0/umd/Recharts.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+        const { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Legend, PieChart, Pie, Cell, LineChart, Line } = Recharts;
+
+        const MCFSkillsDashboard = () => {
+          const [activeView, setActiveView] = useState('overview');
+
+          // Skills data organized by categories
+          const skillsData = {
+            "Donna Cusack": {
+              "Governance": { "Chairing": 3, "Leadership": 3, "Legal duties": 2, "Charity law": 1, "Strategic Planning": 3, "Risk Management": 2 },
+              "Financial": { "Accountancy": 2, "Financial Planning": 2, "Financial Systems": 2, "Auditing": 2, "Understanding Accounts": 2 },
+              "Operational": { "Project Management": 3, "HR Management": 3, "Volunteer Management": 2, "Safeguarding": 3, "Data Protection": 3 },
+              "Fundraising": { "Fundraising Strategy": 1, "Community Fundraising": 1, "Corporate Fundraising": 1, "Events Fundraising": 1, "Grants & Trusts": 1 },
+              "Marketing": { "Communications": 3, "Digital Marketing": 2, "Social Media": 2, "Public Relations": 2, "Branding": 2 },
+              "Sector": { "Education Experience": 3, "Charity Management": 1, "Lived Experience": 0, "Networks": 2 }
+            },
+            "Lucia Glynn": {
+              "Governance": { "Chairing": 2, "Leadership": 3, "Legal duties": 2, "Charity law": 1, "Strategic Planning": 3, "Risk Management": 3 },
+              "Financial": { "Accountancy": 1, "Financial Planning": 3, "Financial Systems": 1, "Auditing": 1, "Understanding Accounts": 2 },
+              "Operational": { "Project Management": 3, "HR Management": 2, "Volunteer Management": 1, "Safeguarding": 3, "Data Protection": 2 },
+              "Fundraising": { "Fundraising Strategy": 2, "Community Fundraising": 2, "Corporate Fundraising": 1, "Events Fundraising": 2, "Grants & Trusts": 2 },
+              "Marketing": { "Communications": 2, "Digital Marketing": 1, "Social Media": 2, "Public Relations": 2, "Branding": 2 },
+              "Sector": { "Education Experience": 3, "Charity Management": 1, "Lived Experience": 0, "Networks": 1 }
+            },
+            "Elaine Robinson": {
+              "Governance": { "Chairing": 1, "Leadership": 2, "Legal duties": 1, "Charity law": 1, "Strategic Planning": 1, "Risk Management": 2 },
+              "Financial": { "Accountancy": 0, "Financial Planning": 1, "Financial Systems": 1, "Auditing": 0, "Understanding Accounts": 1 },
+              "Operational": { "Project Management": 0, "HR Management": 2, "Volunteer Management": 0, "Safeguarding": 3, "Data Protection": 2 },
+              "Fundraising": { "Fundraising Strategy": 0, "Community Fundraising": 0, "Corporate Fundraising": 0, "Events Fundraising": 0, "Grants & Trusts": 0 },
+              "Marketing": { "Communications": 1, "Digital Marketing": 0, "Social Media": 1, "Public Relations": 1, "Branding": 0 },
+              "Sector": { "Education Experience": 2, "Charity Management": 0, "Lived Experience": 2, "Networks": 1 }
+            },
+            "Nick Osborne": {
+              "Governance": { "Chairing": 3, "Leadership": 3, "Legal duties": 3, "Charity law": 2, "Strategic Planning": 3, "Risk Management": 3 },
+              "Financial": { "Accountancy": 1, "Financial Planning": 3, "Financial Systems": 2, "Auditing": 1, "Understanding Accounts": 3 },
+              "Operational": { "Project Management": 2, "HR Management": 2, "Volunteer Management": 2, "Safeguarding": 3, "Data Protection": 2 },
+              "Fundraising": { "Fundraising Strategy": 1, "Community Fundraising": 1, "Corporate Fundraising": 1, "Events Fundraising": 1, "Grants & Trusts": 1 },
+              "Marketing": { "Communications": 3, "Digital Marketing": 1, "Social Media": 1, "Public Relations": 2, "Branding": 1 },
+              "Sector": { "Education Experience": 3, "Charity Management": 2, "Lived Experience": 3, "Networks": 2 }
+            },
+            "John Camp": {
+              "Governance": { "Chairing": 3, "Leadership": 3, "Legal duties": 3, "Charity law": 2, "Strategic Planning": 3, "Risk Management": 3 },
+              "Financial": { "Accountancy": 1, "Financial Planning": 3, "Financial Systems": 3, "Auditing": 2, "Understanding Accounts": 2 },
+              "Operational": { "Project Management": 3, "HR Management": 3, "Volunteer Management": 1, "Safeguarding": 3, "Data Protection": 3 },
+              "Fundraising": { "Fundraising Strategy": 1, "Community Fundraising": 1, "Corporate Fundraising": 1, "Events Fundraising": 1, "Grants & Trusts": 2 },
+              "Marketing": { "Communications": 3, "Digital Marketing": 1, "Social Media": 2, "Public Relations": 3, "Branding": 2 },
+              "Sector": { "Education Experience": 3, "Charity Management": 3, "Lived Experience": 3, "Networks": 3 }
+            }
+          };
+
+          // Calculate category averages
+          const calculateCategoryAverages = () => {
+            const categories = ["Governance", "Financial", "Operational", "Fundraising", "Marketing", "Sector"];
+            const trustees = Object.keys(skillsData);
+            
+            return categories.map(category => {
+              let total = 0;
+              let count = 0;
+              
+              trustees.forEach(trustee => {
+                Object.values(skillsData[trustee][category]).forEach(value => {
+                  total += value;
+                  count++;
+                });
+              });
+              
+              return {
+                category,
+                average: (total / count).toFixed(2),
+                averageNum: total / count
+              };
+            }).sort((a, b) => b.averageNum - a.averageNum);
+          };
+
+          // Skills gap analysis
+          const getSkillsGaps = () => {
+            const allSkills = {};
+            
+            Object.keys(skillsData).forEach(trustee => {
+              Object.keys(skillsData[trustee]).forEach(category => {
+                Object.keys(skillsData[trustee][category]).forEach(skill => {
+                  if (!allSkills[skill]) allSkills[skill] = [];
+                  allSkills[skill].push(skillsData[trustee][category][skill]);
+                });
+              });
+            });
+            
+            return Object.entries(allSkills)
+              .map(([skill, values]) => ({
+                skill,
+                average: (values.reduce((a, b) => a + b, 0) / values.length).toFixed(2),
+                averageNum: values.reduce((a, b) => a + b, 0) / values.length,
+                experts: values.filter(v => v === 3).length,
+                beginners: values.filter(v => v <= 1).length
+              }))
+              .sort((a, b) => a.averageNum - b.averageNum)
+              .slice(0, 10);
+          };
+
+          // Individual trustee profiles
+          const getTrusteeProfile = (trustee) => {
+            const data = skillsData[trustee];
+            return Object.keys(data).map(category => ({
+              category,
+              score: Object.values(data[category]).reduce((a, b) => a + b, 0) / Object.values(data[category]).length
+            }));
+          };
+
+          const categoryAverages = calculateCategoryAverages();
+          const skillsGaps = getSkillsGaps();
+          const trustees = Object.keys(skillsData);
+
+          const colors = {
+            primary: '#1f2937',
+            secondary: '#3b82f6',
+            success: '#10b981',
+            warning: '#f59e0b',
+            danger: '#ef4444',
+            info: '#06b6d4'
+          };
+
+          // Engagement data
+          const engagementData = [
+            { name: 'Met All Staff', value: 3, total: 5 },
+            { name: 'Met Volunteers', value: 3, total: 5 },
+            { name: 'Know Projects', value: 5, total: 5 },
+            { name: 'Know Mission/Vision', value: 5, total: 5 }
+          ];
+
+          return (
+            <div className="min-h-screen bg-gray-50 p-6">
+              <div className="max-w-7xl mx-auto">
+                {/* Header */}
+                <div className="mb-8">
+                  <h1 className="text-3xl font-bold text-gray-900 mb-2">Maritime Children's Foundation</h1>
+                  <p className="text-xl text-gray-600">Trustee Skills Audit Dashboard - March 2025</p>
+                  <p className="text-sm text-gray-500 mt-2">Interactive visualization of board capabilities and development priorities</p>
+                </div>
+
+                {/* Navigation */}
+                <div className="bg-white rounded-lg shadow-sm mb-6 p-1">
+                  <div className="flex space-x-1">
+                    {[
+                      { id: 'overview', label: 'Overview' },
+                      { id: 'categories', label: 'Skill Categories' },
+                      { id: 'gaps', label: 'Skills Gaps' },
+                      { id: 'trustees', label: 'Individual Profiles' },
+                      { id: 'engagement', label: 'Board Engagement' }
+                    ].map((tab) => (
+                      <button
+                        key={tab.id}
+                        onClick={() => setActiveView(tab.id)}
+                        className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                          activeView === tab.id
+                            ? 'bg-blue-100 text-blue-700'
+                            : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
+                        }`}
+                      >
+                        {tab.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Overview */}
+                {activeView === 'overview' && (
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <div className="bg-white rounded-lg shadow-sm p-6">
+                      <h3 className="text-lg font-semibold mb-4 text-gray-900">Skill Category Performance</h3>
+                      <ResponsiveContainer width="100%" height={300}>
+                        <BarChart data={categoryAverages}>
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis dataKey="category" angle={-45} textAnchor="end" height={80} fontSize={12} />
+                          <YAxis domain={[0, 3]} />
+                          <Tooltip formatter={(value) => [`${value}/3`, 'Average Score']} />
+                          <Bar dataKey="averageNum" fill={colors.secondary} />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </div>
+
+                    <div className="bg-white rounded-lg shadow-sm p-6">
+                      <h3 className="text-lg font-semibold mb-4 text-gray-900">Key Metrics</h3>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="text-center p-4 bg-green-50 rounded-lg">
+                          <div className="text-2xl font-bold text-green-600">2.7/3</div>
+                          <div className="text-sm text-gray-600">Governance Average</div>
+                        </div>
+                        <div className="text-center p-4 bg-yellow-50 rounded-lg">
+                          <div className="text-2xl font-bold text-yellow-600">2.0/3</div>
+                          <div className="text-sm text-gray-600">Financial Average</div>
+                        </div>
+                        <div className="text-center p-4 bg-red-50 rounded-lg">
+                          <div className="text-2xl font-bold text-red-600">1.0/3</div>
+                          <div className="text-sm text-gray-600">Fundraising Average</div>
+                        </div>
+                        <div className="text-center p-4 bg-blue-50 rounded-lg">
+                          <div className="text-2xl font-bold text-blue-600">5</div>
+                          <div className="text-sm text-gray-600">Active Trustees</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Categories View */}
+                {activeView === 'categories' && (
+                  <div className="space-y-6">
+                    <div className="bg-white rounded-lg shadow-sm p-6">
+                      <h3 className="text-lg font-semibold mb-4 text-gray-900">Category Strengths & Weaknesses</h3>
+                      <ResponsiveContainer width="100%" height={400}>
+                        <BarChart data={categoryAverages} layout="vertical" margin={{ top: 20, right: 30, left: 100, bottom: 5 }}>
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis type="number" domain={[0, 3]} />
+                          <YAxis dataKey="category" type="category" width={100} />
+                          <Tooltip formatter={(value) => [`${value}/3`, 'Average Score']} />
+                          <Bar dataKey="averageNum">
+                            {categoryAverages.map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={
+                                entry.averageNum >= 2.5 ? '#10b981' :
+                                entry.averageNum >= 2.0 ? '#f59e0b' : '#ef4444'
+                              } />
+                            ))}
+                          </Bar>
+                        </BarChart>
+                      </ResponsiveContainer>
+                      <div className="mt-4 flex justify-center space-x-6 text-sm">
+                        <div className="flex items-center">
+                          <div className="w-4 h-4 bg-green-500 rounded mr-2"></div>
+                          <span>Strong (2.5+)</span>
+                        </div>
+                        <div className="flex items-center">
+                          <div className="w-4 h-4 bg-yellow-500 rounded mr-2"></div>
+                          <span>Developing (2.0-2.4)</span>
+                        </div>
+                        <div className="flex items-center">
+                          <div className="w-4 h-4 bg-red-500 rounded mr-2"></div>
+                          <span>Gap (&lt;2.0)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-white rounded-lg shadow-sm p-6">
+                      <h3 className="text-lg font-semibold mb-4 text-gray-900">Category Performance Summary</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {categoryAverages.map((category, index) => (
+                          <div key={index} className="p-4 rounded-lg border-l-4" style={{
+                            borderLeftColor: category.averageNum >= 2.5 ? colors.success :
+                                           category.averageNum >= 2.0 ? colors.warning : colors.danger,
+                            backgroundColor: category.averageNum >= 2.5 ? '#f0fdf4' :
+                                           category.averageNum >= 2.0 ? '#fffbeb' : '#fef2f2'
+                          }}>
+                            <h4 className="font-medium text-gray-900 mb-2">{category.category}</h4>
+                            <div className="text-2xl font-bold" style={{
+                              color: category.averageNum >= 2.5 ? colors.success :
+                                     category.averageNum >= 2.0 ? colors.warning : colors.danger
+                            }}>
+                              {category.average}/3
+                            </div>
+                            <div className="text-sm text-gray-600 mt-1">
+                              {category.averageNum >= 2.5 ? 'Strong' :
+                               category.averageNum >= 2.0 ? 'Developing' : 'Needs Development'}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Skills Gaps */}
+                {activeView === 'gaps' && (
+                  <div className="space-y-6">
+                    <div className="bg-white rounded-lg shadow-sm p-6">
+                      <h3 className="text-lg font-semibold mb-4 text-gray-900">Priority Skills Gaps (Lowest 10)</h3>
+                      <ResponsiveContainer width="100%" height={400}>
+                        <BarChart data={skillsGaps}>
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis dataKey="skill" angle={-45} textAnchor="end" height={100} fontSize={11} />
+                          <YAxis domain={[0, 3]} />
+                          <Tooltip formatter={(value) => [`${value}/3`, 'Average Score']} />
+                          <Bar dataKey="averageNum" fill={colors.danger} />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </div>
+
+                    <div className="bg-white rounded-lg shadow-sm p-6">
+                      <h3 className="text-lg font-semibold mb-4 text-gray-900">Expertise Distribution</h3>
+                      <div className="overflow-x-auto">
+                        <table className="min-w-full">
+                          <thead>
+                            <tr className="border-b">
+                              <th className="text-left py-2 px-4">Skill</th>
+                              <th className="text-center py-2 px-4">Average</th>
+                              <th className="text-center py-2 px-4">Experts (3/3)</th>
+                              <th className="text-center py-2 px-4">Beginners (0-1/3)</th>
+                              <th className="text-center py-2 px-4">Priority</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {skillsGaps.slice(0, 8).map((skill, index) => (
+                              <tr key={index} className="border-b">
+                                <td className="py-2 px-4 font-medium">{skill.skill}</td>
+                                <td className="text-center py-2 px-4">{skill.average}</td>
+                                <td className="text-center py-2 px-4">{skill.experts}</td>
+                                <td className="text-center py-2 px-4">{skill.beginners}</td>
+                                <td className="text-center py-2 px-4">
+                                  <span className={`px-2 py-1 rounded text-xs ${
+                                    parseFloat(skill.average) < 1.0 ? 'bg-red-100 text-red-800' :
+                                    parseFloat(skill.average) < 1.5 ? 'bg-orange-100 text-orange-800' :
+                                    'bg-yellow-100 text-yellow-800'
+                                  }`}>
+                                    {parseFloat(skill.average) < 1.0 ? 'Critical' :
+                                     parseFloat(skill.average) < 1.5 ? 'High' : 'Medium'}
+                                  </span>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Individual Trustees */}
+                {activeView === 'trustees' && (
+                  <div className="space-y-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                      {trustees.map((trustee, index) => (
+                        <div key={trustee} className="bg-white rounded-lg shadow-sm p-6">
+                          <h4 className="font-semibold text-gray-900 mb-4">{trustee}</h4>
+                          <ResponsiveContainer width="100%" height={250}>
+                            <RadarChart data={getTrusteeProfile(trustee)}>
+                              <PolarGrid />
+                              <PolarAngleAxis dataKey="category" fontSize={10} />
+                              <PolarRadiusAxis domain={[0, 3]} tickCount={4} fontSize={8} />
+                              <Radar
+                                name={trustee}
+                                dataKey="score"
+                                stroke={`hsl(${index * 60}, 70%, 50%)`}
+                                fill={`hsl(${index * 60}, 70%, 50%)`}
+                                fillOpacity={0.3}
+                              />
+                            </RadarChart>
+                          </ResponsiveContainer>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Board Engagement */}
+                {activeView === 'engagement' && (
+                  <div className="space-y-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                      <div className="bg-white rounded-lg shadow-sm p-6">
+                        <h3 className="text-lg font-semibold mb-4 text-gray-900">Board Engagement Levels</h3>
+                        <ResponsiveContainer width="100%" height={300}>
+                          <BarChart data={engagementData}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="name" angle={-45} textAnchor="end" height={80} fontSize={12} />
+                            <YAxis domain={[0, 5]} />
+                            <Tooltip formatter={(value, name) => [`${value}/5 trustees`, 'Count']} />
+                            <Bar dataKey="value" fill={colors.info} />
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </div>
+
+                      <div className="bg-white rounded-lg shadow-sm p-6">
+                        <h3 className="text-lg font-semibold mb-4 text-gray-900">Organizational Knowledge</h3>
+                        <div className="space-y-4">
+                          <div className="p-4 bg-green-50 rounded-lg">
+                            <div className="flex justify-between items-center">
+                              <span className="font-medium">Know Mission/Vision</span>
+                              <span className="text-green-600 font-bold">100%</span>
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+                              <div className="bg-green-600 h-2 rounded-full" style={{width: '100%'}}></div>
+                            </div>
+                          </div>
+                          
+                          <div className="p-4 bg-green-50 rounded-lg">
+                            <div className="flex justify-between items-center">
+                              <span className="font-medium">Familiar with Projects</span>
+                              <span className="text-green-600 font-bold">100%</span>
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+                              <div className="bg-green-600 h-2 rounded-full" style={{width: '100%'}}></div>
+                            </div>
+                          </div>
+                          
+                          <div className="p-4 bg-yellow-50 rounded-lg">
+                            <div className="flex justify-between items-center">
+                              <span className="font-medium">Met All Staff</span>
+                              <span className="text-yellow-600 font-bold">60%</span>
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+                              <div className="bg-yellow-600 h-2 rounded-full" style={{width: '60%'}}></div>
+                            </div>
+                          </div>
+                          
+                          <div className="p-4 bg-yellow-50 rounded-lg">
+                            <div className="flex justify-between items-center">
+                              <span className="font-medium">Met Volunteers</span>
+                              <span className="text-yellow-600 font-bold">60%</span>
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+                              <div className="bg-yellow-600 h-2 rounded-full" style={{width: '60%'}}></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-white rounded-lg shadow-sm p-6">
+                      <h3 className="text-lg font-semibold mb-4 text-gray-900">Action Items</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="p-4 border-l-4 border-red-500 bg-red-50">
+                          <h4 className="font-medium text-red-800 mb-2">Critical Priority</h4>
+                          <ul className="text-sm text-red-700 space-y-1">
+                            <li>• Recruit fundraising expertise urgently</li>
+                            <li>• Strengthen financial oversight capabilities</li>
+                            <li>• Address charity law compliance knowledge gap</li>
+                          </ul>
+                        </div>
+                        <div className="p-4 border-l-4 border-yellow-500 bg-yellow-50">
+                          <h4 className="font-medium text-yellow-800 mb-2">High Priority</h4>
+                          <ul className="text-sm text-yellow-700 space-y-1">
+                            <li>• Increase trustee-staff interaction</li>
+                            <li>• Develop volunteer management skills</li>
+                            <li>• Digital marketing and social media training</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        };
+
+        ReactDOM.render(<MCFSkillsDashboard />, document.getElementById('root'));
+    </script>
+</body>
+</html>
