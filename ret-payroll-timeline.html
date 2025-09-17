@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RET Payroll Migration Timeline</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 10px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 100%;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        h2 {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        .timeline-container {
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        .timeline {
+            display: grid;
+            grid-template-columns: 280px repeat(26, 75px);
+            gap: 1px;
+            background-color: #ecf0f1;
+            border: 1px solid #bdc3c7;
+            min-width: 2250px;
+        }
+        .header {
+            background-color: #34495e;
+            color: white;
+            padding: 8px 4px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 11px;
+        }
+        .month-header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 6px 4px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 10px;
+        }
+        .activity {
+            background-color: white;
+            padding: 6px;
+            font-size: 11px;
+            border-right: 1px solid #bdc3c7;
+            font-weight: 500;
+        }
+        .week {
+            background-color: white;
+            border-right: 1px solid #bdc3c7;
+            position: relative;
+        }
+        .bar {
+            height: 18px;
+            margin: 2px;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            color: white;
+            font-weight: bold;
+        }
+        .phase1 { background-color: #3498db; }
+        .phase2 { background-color: #e74c3c; }
+        .phase3 { background-color: #f39c12; }
+        .phase4 { background-color: #27ae60; }
+        .phase5 { background-color: #9b59b6; }
+        .critical { background-color: #e67e22; }
+        .milestone {
+            background-color: #2c3e50;
+            color: white;
+            height: 16px;
+            margin: 3px;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            font-weight: bold;
+        }
+        .legend {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 15px 0;
+            padding: 12px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .legend-color {
+            width: 18px;
+            height: 12px;
+            border-radius: 3px;
+        }
+        .legend-text {
+            font-size: 11px;
+            font-weight: 500;
+        }
+        .summary {
+            background-color: #ecf0f1;
+            padding: 12px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+        .summary h3 {
+            color: #2c3e50;
+            margin-top: 0;
+            font-size: 14px;
+        }
+        .summary p {
+            font-size: 12px;
+            margin: 8px 0;
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            h1 {
+                font-size: 20px;
+            }
+            h2 {
+                font-size: 14px;
+            }
+            .legend {
+                gap: 10px;
+            }
+            .legend-text {
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Russell Education Trust - Payroll Migration Timeline</h1>
+        <h2>Vera to Every Payroll (September 2025 - March 2026)</h2>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color phase1"></div>
+                <span class="legend-text">Phase 1: Initiation</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color phase2"></div>
+                <span class="legend-text">Phase 2: Design & Config</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color phase3"></div>
+                <span class="legend-text">Phase 3: Migration & Testing</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color phase4"></div>
+                <span class="legend-text">Phase 4: Training & Prep</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color phase5"></div>
+                <span class="legend-text">Phase 5: Go-Live</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color critical"></div>
+                <span class="legend-text">Critical Activities</span>
+            </div>
+        </div>
+
+        <div class="timeline-container">
+            <div class="timeline">
+                <!-- Headers -->
+                <div class="header">Activity</div>
+                <div class="month-header" style="grid-column: span 4;">September 2025</div>
+                <div class="month-header" style="grid-column: span 4;">October 2025</div>
+                <div class="month-header" style="grid-column: span 4;">November 2025</div>
+                <div class="month-header" style="grid-column: span 4;">December 2025</div>
+                <div class="month-header" style="grid-column: span 5;">January 2026</div>
+                <div class="month-header" style="grid-column: span 4;">February 2026</div>
+                <div class="month-header" style="grid-column: span 1;">Mar</div>
+
+                <!-- Week numbers -->
+                <div class="header" style="font-size: 9px;">Week →</div>
+                <div class="header" style="font-size: 9px;">W1</div>
+                <div class="header" style="font-size: 9px;">W2</div>
+                <div class="header" style="font-size: 9px;">W3</div>
+                <div class="header" style="font-size: 9px;">W4</div>
+                <div class="header" style="font-size: 9px;">W5</div>
+                <div class="header" style="font-size: 9px;">W6</div>
+                <div class="header" style="font-size: 9px;">W7</div>
+                <div class="header" style="font-size: 9px;">W8</div>
+                <div class="header" style="font-size: 9px;">W9</div>
+                <div class="header" style="font-size: 9px;">W10</div>
+                <div class="header" style="font-size: 9px;">W11</div>
+                <div class="header" style="font-size: 9px;">W12</div>
+                <div class="header" style="font-size: 9px;">W13</div>
+                <div class="header" style="font-size: 9px;">W14</div>
+                <div class="header" style="font-size: 9px;">W15</div>
+                <div class="header" style="font-size: 9px;">W16</div>
+                <div class="header" style="font-size: 9px;">W17</div>
+                <div class="header" style="font-size: 9px;">W18</div>
+                <div class="header" style="font-size: 9px;">W19</div>
+                <div class="header" style="font-size: 9px;">W20</div>
+                <div class="header" style="font-size: 9px;">W21</div>
+                <div class="header" style="font-size: 9px;">W22</div>
+                <div class="header" style="font-size: 9px;">W23</div>
+                <div class="header" style="font-size: 9px;">W24</div>
+                <div class="header" style="font-size: 9px;">W25</div>
+                <div class="header" style="font-size: 9px;">W26</div>
+
+                <!-- Project Team Formation -->
+                <div class="activity">Project Team Formation</div>
+                <div class="week"><div class="bar phase1">Setup</div></div>
+                <div class="week"><div class="bar phase1">Kick-off</div></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+
+                <!-- Requirements Gathering -->
+                <div class="activity">Requirements & Analysis</div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"><div class="bar phase1">Analyze</div></div>
+                <div class="week"><div class="bar phase1">Gather</div></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+
+                <!-- System Configuration -->
+                <div class="activity">System Configuration</div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"><div class="bar phase2">Design</div></div>
+                <div class="week"><div class="bar phase2">Map</div></div>
+                <div class="week"><div class="bar phase2">Config</div></div>
+                <div class="week"><div class="bar phase2">Setup</div></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+
+                <!-- Data Migration -->
+                <div class="activity">Data Migration</div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"><div class="bar critical">Cleanse</div></div>
+                <div class="week"><div class="bar critical">Extract</div></div>
+                <div class="week"><div class="bar phase3">Migrate</div></div>
+                <div class="week"><div class="bar phase3">Validate</div></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+
+                <!-- Integration Testing -->
+                <div class="activity">Integration Testing</div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"><div class="bar phase3">Test</div></div>
+                <div class="week"><div class="bar phase3">UAT</div></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+
+                <!-- Training -->
+                <div class="activity">User Training</div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"><div class="bar phase4">Prep</div></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"><div class="bar critical">Super</div></div>
+                <div class="week"><div class="bar critical">Users</div></div>
+                <div class="week"><div class="bar phase4">End Users</div></div>
+                <div class="week"><div class="bar phase4">Support</div></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+
+                <!-- Parallel Running -->
+                <div class="activity">Parallel Running</div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"><div class="bar phase4">Prep</div></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"><div class="bar critical">Cycle 1</div></div>
+                <div class="week"><div class="bar critical">Cycle 2</div></div>
+                <div class="week"><div class="bar critical">Test</div></div>
+                <div class="week"><div class="bar critical">Final</div></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+
+                <!-- Go-Live Preparation -->
+                <div class="activity">Go-Live Preparation</div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"><div class="bar phase4">Plan</div></div>
+                <div class="week"><div class="bar phase4">Sync</div></div>
+                <div class="week"><div class="bar critical">Ready</div></div>
+                <div class="week"><div class="bar critical">Final</div></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+
+                <!-- Go-Live & Support -->
+                <div class="activity">Go-Live & Support</div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"><div class="bar critical">GO!</div></div>
+                <div class="week"><div class="bar phase5">Support</div></div>
+                <div class="week"><div class="bar phase5">Monitor</div></div>
+                <div class="week"><div class="bar phase5">Stabilize</div></div>
+                <div class="week"></div>
+                <div class="week"><div class="bar phase5">Review</div></div>
+
+                <!-- Milestones Row -->
+                <div class="activity" style="font-weight: bold; color: #2c3e50;">Key Milestones</div>
+                <div class="week"></div>
+                <div class="week"><div class="milestone">Kickoff</div></div>
+                <div class="week"></div>
+                <div class="week"><div class="milestone">Reqs Done</div></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"><div class="milestone">Config Done</div></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"><div class="milestone">UAT Sign-off</div></div>
+                <div class="week"></div>
+                <div class="week"><div class="milestone">Training Done</div></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"><div class="milestone">Final Prep</div></div>
+                <div class="week"></div>
+                <div class="week"><div class="milestone">Cutover</div></div>
+                <div class="week"><div class="milestone">GO-LIVE</div></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"></div>
+                <div class="week"><div class="milestone">Project Close</div></div>
+            </div>
+        </div>
+
+        <div class="summary">
+            <h3>Critical Path Activities</h3>
+            <p><strong>Week 9-12 (November):</strong> Data cleansing, extraction, and migration - highest risk period</p>
+            <p><strong>Week 13-16 (December):</strong> Super user training and first parallel run cycle</p>
+            <p><strong>Week 17-20 (January):</strong> Final testing, preparation, and cutover readiness</p>
+            <p><strong>Week 21 (February):</strong> GO-LIVE - system cutover and intensive support</p>
+            
+            <h3>Resource Peaks</h3>
+            <p><strong>September:</strong> Project setup and requirements gathering</p>
+            <p><strong>October:</strong> System configuration and integration work</p>
+            <p><strong>November:</strong> Data migration and testing (highest resource requirement)</p>
+            <p><strong>December-January:</strong> Training delivery and parallel running</p>
+            <p><strong>February:</strong> Go-live support and stabilization</p>
+        </div>
+    </div>
+</body>
+</html>
