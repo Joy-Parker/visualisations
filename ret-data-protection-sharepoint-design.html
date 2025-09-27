@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Russell Education Trust - Data Protection SharePoint Architecture</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.2em;
+            font-weight: 300;
+        }
+        
+        .header p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .main-content {
+            padding: 40px;
+        }
+        
+        .trust-home {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .trust-home h2 {
+            margin: 0 0 15px 0;
+            font-size: 1.8em;
+        }
+        
+        .permissions {
+            background: #e8f5e8;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 0.9em;
+            color: #2d5016;
+            font-weight: 600;
+        }
+        
+        .dp-home {
+            background: #f0f8ff;
+            border: 3px solid #ff6b6b;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .dp-home h3 {
+            color: #ff6b6b;
+            margin: 0 0 20px 0;
+            font-size: 1.6em;
+            text-align: center;
+        }
+        
+        .sections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            border-left: 5px solid #ff6b6b;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .section h4 {
+            color: #2d3748;
+            margin: 0 0 15px 0;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-icon {
+            width: 24px;
+            height: 24px;
+            background: #ff6b6b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .section ul {
+            margin: 0;
+            padding-left: 20px;
+            color: #4a5568;
+        }
+        
+        .section li {
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        
+        .dp-team-section {
+            background: #fff0f5;
+            border: 3px solid #8b5cf6;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .dp-team-section h3 {
+            color: #8b5cf6;
+            margin: 0 0 20px 0;
+            font-size: 1.6em;
+            text-align: center;
+        }
+        
+        .dp-team-section .section {
+            border-left-color: #8b5cf6;
+        }
+        
+        .school-sections {
+            background: #f0fff4;
+            border: 3px solid #10b981;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .school-sections h3 {
+            color: #10b981;
+            margin: 0 0 20px 0;
+            font-size: 1.6em;
+            text-align: center;
+        }
+        
+        .schools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+        
+        .school-item {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            border-left: 5px solid #10b981;
+        }
+        
+        .school-item h4 {
+            color: #10b981;
+            margin: 0 0 15px 0;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+        
+        .permission-note {
+            background: #fef5e7;
+            border: 1px solid #f6ad55;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 0.9em;
+            color: #744210;
+        }
+        
+        .architecture-note {
+            background: #e6fffa;
+            border: 2px solid #4fd1c7;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .architecture-note h4 {
+            color: #234e52;
+            margin: 0 0 15px 0;
+            font-size: 1.3em;
+        }
+        
+        .arrow {
+            text-align: center;
+            font-size: 2em;
+            color: #cbd5e0;
+            margin: 20px 0;
+        }
+        
+        .recommendation {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 30px;
+        }
+        
+        .recommendation h4 {
+            margin: 0 0 15px 0;
+            font-size: 1.4em;
+        }
+        
+        .recommendation ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .recommendation li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        
+        .compliance-highlight {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            border: 2px solid #ff6b9d;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 25px 0;
+            color: #2d1b69;
+        }
+        
+        .compliance-highlight h4 {
+            margin: 0 0 15px 0;
+            color: #2d1b69;
+            font-size: 1.3em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Russell Education Trust</h1>
+            <p>Data Protection SharePoint Site Architecture & Permissions Design</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="trust-home">
+                <h2>Trust Home Page</h2>
+                <div class="permissions">🌐 All Staff Access (7 Schools)</div>
+                <p style="margin-top: 15px; opacity: 0.9;">Entry point with inherited permissions that will be restricted as users navigate deeper</p>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <div class="dp-home">
+                <h3>🔒 Data Protection Site Home Page</h3>
+                <div class="permissions">👥 All Staff Access - Permissions Inherited from Trust Home</div>
+                
+                <div class="sections-grid">
+                    <div class="section">
+                        <h4><span class="section-icon">📋</span>GDPR Policies & Procedures</h4>
+                        <ul>
+                            <li>Data Protection Policy</li>
+                            <li>Privacy Notices for staff</li>
+                            <li>Data Retention Schedule</li>
+                            <li>Subject Access Request procedures</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="section">
+                        <h4><span class="section-icon">🎓</span>DP Training & Resources</h4>
+                        <ul>
+                            <li>Mandatory GDPR training modules</li>
+                            <li>Data handling guidance</li>
+                            <li>Incident response procedures</li>
+                            <li>Best practice resources</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="section">
+                        <h4><span class="section-icon">📢</span>DP News & Updates</h4>
+                        <ul>
+                            <li>Regulatory updates from ICO</li>
+                            <li>Trust-wide DP communications</li>
+                            <li>Policy changes and reminders</li>
+                            <li>Data breach notifications</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="section">
+                        <h4><span class="section-icon">📝</span>Request Forms</h4>
+                        <ul>
+                            <li>Subject Access Request form</li>
+                            <li>Data incident reporting form</li>
+                            <li>Privacy Impact Assessment request</li>
+                            <li>Data sharing agreement template</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="section">
+                        <h4><span class="section-icon">🔗</span>External DP Resources</h4>
+                        <ul>
+                            <li>ICO guidance portal</li>
+                            <li>DfE data protection guidance</li>
+                            <li>Educational data protection networks</li>
+                            <li>Legal compliance resources</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="section">
+                        <h4><span class="section-icon">🏫</span>School Quick Links</h4>
+                        <ul>
+                            <li>Bristol Free School</li>
+                            <li>Becket Keys</li>
+                            <li>King's School</li>
+                            <li>St Andrew's School</li>
+                            <li>Turing House School</li>
+                            <li>Elmlea Infant School</li>
+                            <li>Elmlea Junior School</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dp-team-section">
+                <h3>🛡️ Data Protection Team Section</h3>
+                <div class="permissions">🔒 DP Team Only Access - Permissions Broken from Parent Site</div>
+                
+                <div class="sections-grid">
+                    <div class="section">
+                        <h4><span class="section-icon">🧰</span>DP Toolkit Library</h4>
+                        <ul>
+                            <li>GDPR compliance frameworks</li>
+                            <li>Risk assessment templates</li>
+                            <li>Audit and monitoring tools</li>
+                            <li>Legal precedent documentation</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="section">
+                        <h4><span class="section-icon">💬</span>DP Team Chat</h4>
+                        <ul>
+                            <li>Microsoft Teams integration</li>
+                            <li>Trust-wide DP team communication</li>
+                            <li>Urgent incident coordination</li>
+                            <li>Compliance discussion forum</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="section">
+                        <h4><span class="section-icon">📊</span>Compliance Management</h4>
+                        <ul>
+                            <li>Data audit tracking systems</li>
+                            <li>Breach incident register</li>
+                            <li>Training compliance monitoring</li>
+                            <li>Policy review schedules</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="section">
+                        <h4><span class="section-icon">⚖️</span>Legal & Regulatory</h4>
+                        <ul>
+                            <li>ICO correspondence archive</li>
+                            <li>Legal advice documentation</li>
+                            <li>Regulatory change tracking</li>
+                            <li>External counsel resources</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="compliance-highlight">
+                <h4>🎯 GDPR Compliance Focus Areas</h4>
+                <p>The Data Protection site structure ensures compliance with UK GDPR requirements, including lawful basis documentation, data subject rights, breach management, and privacy by design principles across all Trust schools.</p>
+            </div>
+            
+            <div class="school-sections">
+                <h3>🏫 School-Specific DP Sections</h3>
+                <div class="permissions">🔐 Individual School DP Coordinators Only - Separate Permissions per School</div>
+                
+                <div class="schools-grid">
+                    <div class="school-item">
+                        <h4>Secondary Schools (5)</h4>
+                        <ul>
+                            <li><strong>Bristol Free School</strong></li>
+                            <li><strong>Becket Keys</strong></li>
+                            <li><strong>King's School</strong></li>
+                            <li><strong>St Andrew's School</strong></li>
+                            <li><strong>Turing House School</strong></li>
+                        </ul>
+                        <div class="permission-note">
+                            Each school's DP coordinator can only access their own section
+                        </div>
+                    </div>
+                    
+                    <div class="school-item">
+                        <h4>Primary Schools (2)</h4>
+                        <ul>
+                            <li><strong>Elmlea Infant School</strong></li>
+                            <li><strong>Elmlea Junior School</strong></li>
+                        </ul>
+                        <div class="permission-note">
+                            Each school's DP coordinator can only access their own section
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 25px;">
+                    <h4 style="color: #10b981; margin-bottom: 15px;">Each School Section Contains:</h4>
+                    <div class="sections-grid">
+                        <div class="section" style="border-left-color: #10b981;">
+                            <h4><span class="section-icon">💬</span>Direct Chat with Trust DPO</h4>
+                            <ul>
+                                <li>Secure communication channel</li>
+                                <li>Immediate incident reporting</li>
+                                <li>Confidential guidance requests</li>
+                                <li>Compliance query resolution</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="section" style="border-left-color: #10b981;">
+                            <h4><span class="section-icon">📁</span>School DP Document Library</h4>
+                            <ul>
+                                <li>School-specific privacy notices</li>
+                                <li>Local data processing records</li>
+                                <li>Incident investigation files</li>
+                                <li>Parent/student communication drafts</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="section" style="border-left-color: #10b981;">
+                            <h4><span class="section-icon">📋</span>Incident Management</h4>
+                            <ul>
+                                <li>Local breach reporting forms</li>
+                                <li>Investigation documentation</li>
+                                <li>Remedial action tracking</li>
+                                <li>Stakeholder communication logs</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="section" style="border-left-color: #10b981;">
+                            <h4><span class="section-icon">📊</span>Compliance Monitoring</h4>
+                            <ul>
+                                <li>Staff training completion tracking</li>
+                                <li>Data audit checklists</li>
+                                <li>Policy implementation status</li>
+                                <li>Risk assessment documentation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="architecture-note">
+                <h4>🏗️ Recommended Technical Architecture</h4>
+                <p><strong>For the Data Protection Team Section:</strong> I recommend creating a <strong>separate subsite</strong> with enhanced security. This approach is crucial for DP compliance:</p>
+                <ul>
+                    <li><strong>Enhanced Security:</strong> Complete isolation of sensitive personal data and compliance documents</li>
+                    <li><strong>Audit Trail:</strong> Detailed access logging and document history for regulatory compliance</li>
+                    <li><strong>Information Governance:</strong> Dedicated retention policies and automated compliance monitoring</li>
+                    <li><strong>Encryption:</strong> Additional data protection layers for sensitive compliance information</li>
+                    <li><strong>Role-Based Access:</strong> Granular permissions aligned with data protection responsibilities</li>
+                </ul>
+            </div>
+            
+            <div class="recommendation">
+                <h4>🔐 Implementation Recommendations</h4>
+                <ul>
+                    <li><strong>Security Groups:</strong> Create specific SharePoint groups (e.g., "RET Data Protection Team", "Bristol Free School DP Coordinator") with minimal required access</li>
+                    <li><strong>Audit Logging:</strong> Enable comprehensive audit trails for all document access and modifications</li>
+                    <li><strong>Retention Policies:</strong> Implement automated retention schedules aligned with data protection requirements</li>
+                    <li><strong>Encryption:</strong> Ensure all sensitive documents are encrypted both at rest and in transit</li>
+                    <li><strong>Regular Reviews:</strong> Schedule quarterly access reviews and annual permission audits</li>
+                    <li><strong>Mobile Security:</strong> Implement additional security measures for mobile device access</li>
+                    <li><strong>Integration:</strong> Connect with incident management systems and compliance monitoring tools</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
