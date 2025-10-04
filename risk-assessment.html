@@ -92,6 +92,7 @@
         td {
             border: 1px solid #d1d5db;
             padding: 8px;
+            vertical-align: top;
         }
 
         tbody tr:hover {
@@ -107,6 +108,7 @@
             border: none;
             resize: vertical;
             outline: none;
+            overflow: hidden;
         }
 
         textarea:focus {
@@ -249,10 +251,24 @@
                 display: none !important;
             }
 
-            textarea, input[type="text"], input[type="date"] {
+            textarea {
                 border: none !important;
                 background: transparent !important;
                 padding: 4px !important;
+                overflow: visible !important;
+                resize: none !important;
+                height: auto !important;
+                min-height: auto !important;
+            }
+
+            input[type="text"], input[type="date"] {
+                border: none !important;
+                background: transparent !important;
+                padding: 4px !important;
+            }
+
+            td {
+                page-break-inside: avoid;
             }
 
             table {
@@ -352,10 +368,10 @@
             row.id = `row-${rowId}`;
             
             row.innerHTML = `
-                <td><textarea placeholder="Describe the hazard"></textarea></td>
-                <td><textarea placeholder="Who is at risk and how"></textarea></td>
-                <td><textarea placeholder="Existing control measures"></textarea></td>
-                <td><textarea placeholder="Additional actions needed"></textarea></td>
+                <td><textarea placeholder="Describe the hazard" oninput="autoResize(this)"></textarea></td>
+                <td><textarea placeholder="Who is at risk and how" oninput="autoResize(this)"></textarea></td>
+                <td><textarea placeholder="Existing control measures" oninput="autoResize(this)"></textarea></td>
+                <td><textarea placeholder="Additional actions needed" oninput="autoResize(this)"></textarea></td>
                 <td><input type="text" placeholder="Person responsible"></td>
                 <td><input type="date"></td>
                 <td class="text-center"><input type="checkbox"></td>
@@ -374,6 +390,11 @@
             tbody.appendChild(row);
             rowId++;
             updateDeleteButtons();
+        }
+
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 'px';
         }
 
         function deleteRow(id) {
@@ -455,10 +476,10 @@
                         row.id = `row-${rowId}`;
                         
                         row.innerHTML = `
-                            <td><textarea placeholder="Describe the hazard">${rowData.hazard}</textarea></td>
-                            <td><textarea placeholder="Who is at risk and how">${rowData.whoHarmed}</textarea></td>
-                            <td><textarea placeholder="Existing control measures">${rowData.currentControls}</textarea></td>
-                            <td><textarea placeholder="Additional actions needed">${rowData.furtherAction}</textarea></td>
+                            <td><textarea placeholder="Describe the hazard" oninput="autoResize(this)">${rowData.hazard}</textarea></td>
+                            <td><textarea placeholder="Who is at risk and how" oninput="autoResize(this)">${rowData.whoHarmed}</textarea></td>
+                            <td><textarea placeholder="Existing control measures" oninput="autoResize(this)">${rowData.currentControls}</textarea></td>
+                            <td><textarea placeholder="Additional actions needed" oninput="autoResize(this)">${rowData.furtherAction}</textarea></td>
                             <td><input type="text" placeholder="Person responsible" value="${rowData.actionBy}"></td>
                             <td><input type="date" value="${rowData.actionDate}"></td>
                             <td class="text-center"><input type="checkbox" ${rowData.done ? 'checked' : ''}></td>
@@ -479,6 +500,11 @@
                     });
 
                     updateDeleteButtons();
+
+                    // Auto-resize all textareas after loading
+                    setTimeout(() => {
+                        document.querySelectorAll('textarea').forEach(autoResize);
+                    }, 100);
 
                     // Auto-print after loading data
                     setTimeout(() => {
