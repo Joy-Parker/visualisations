@@ -731,35 +731,4 @@
     </div>
 
     <script>
-        function openPrintWindow() {
-            // Create CSV content
-            let csv = 'School,Policy Name,Staff Read,Staff Not Yet Read,Total Staff,Compliance %\n';
-            
-            // CT - Central Team
-            csv += 'CT - Central Team,Health and Safety Principles Statement - Aug 2025,3,9,12,25.0%\n';
-            csv += 'CT - Central Team,KCSiE - September 2025,3,9,12,25.0%\n';
-            csv += 'CT - Central Team,National Cyber Security Centre Training - Sept 2025,3,9,12,25.0%\n';
-            csv += 'CT - Central Team,Trust Code of Conduct - Sept 2025,3,9,12,25.0%\n';
-            csv += 'CT - Central Team,Trust Safeguarding Policy - July 2025,3,8,11,27.3%\n';
-            csv += 'CT - Central Team,Trust Whistleblowing Policy - Sept 2025,3,9,12,25.0%\n';
-            csv += 'CT - Central Team,Newham Community Learning Data Protection Policy Sept 2025,3,8,11,27.3%\n';
-            csv += 'CT - Central Team,TOTAL,21,61,82,25.6%\n\n';
-            
-            // ECS - Eastlea Community School
-            csv += 'ECS - Eastlea Community School,Cyber Security Training - video - July 2025,125,26,151,82.8%\n';
-            csv += 'ECS - Eastlea Community School,Health and Safety Principles Statement - Aug 2025,108,25,133,81.2%\n';
-            csv += 'ECS - Eastlea Community School,KCSiE - September 2025,108,7,115,93.9%\n';
-            csv += 'ECS - Eastlea Community School,National Cyber Security Centre Training - Sept 2025,0,0,0,N/A\n';
-            csv += 'ECS - Eastlea Community School,Safeguarding training for new starters - 2025_26,3,1,4,75.0%\n';
-            csv += 'ECS - Eastlea Community School,Trust Code of Conduct - September 2025,99,39,138,71.7%\n';
-            csv += 'ECS - Eastlea Community School,Trust Data Protection Policy - Sept 2025,107,25,132,81.1%\n';
-            csv += 'ECS - Eastlea Community School,Trust Safeguarding Policy - July 2025,107,9,116,92.2%\n';
-            csv += 'ECS - Eastlea Community School,Trust Whistleblowing Policy - Sept 2025,107,25,132,81.1%\n';
-            csv += 'ECS - Eastlea Community School,ICT Acceptable Use Agreement 2025_26,108,23,131,82.4%\n';
-            csv += 'ECS - Eastlea Community School,New Behaviour Policy - 2025_26,107,24,131,81.7%\n';
-            csv += 'ECS - Eastlea Community School,Trust Code of Conduct - Eastlea Annex - 2025_26,108,23,131,82.4%\n';
-            csv += 'ECS - Eastlea Community School,TOTAL,1087,227,1314,82.7%\n\n';
-            
-            // LCS - Lister Community School
-            csv += 'LCS - Lister Community School,Health and Safety Principles Statement - Aug 2025,65,117,182,35.7%\n';
-            csv += 'LCS - Lister Community School,KCSiE -
+        
