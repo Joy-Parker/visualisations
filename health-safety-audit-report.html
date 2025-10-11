@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health and Safety Audit Report - Newham Community Learning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            height: 100%;
+            width: 100%;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            background: white;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            min-height: auto;
+        }
+        
+        .print-button {
+            background: #3498db;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 30px;
+            display: inline-block;
+        }
+        
+        .print-button:hover {
+            background: #2980b9;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            font-size: 26px;
+        }
+        
+        .report-date {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+        
+        .summary {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .summary h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .summary ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .summary li {
+            margin: 8px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 13px;
+        }
+        
+        th {
+            background: #34495e;
+            color: white;
+            padding: 12px 8px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 12px;
+        }
+        
+        td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #ddd;
+            vertical-align: top;
+        }
+        
+        tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .school-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .assessment-type {
+            font-size: 11px;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        
+        .date {
+            white-space: nowrap;
+        }
+        
+        .actions {
+            font-size: 12px;
+        }
+        
+        .no-progress {
+            color: #e74c3c;
+            font-style: italic;
+        }
+        
+        .good-progress {
+            color: #27ae60;
+        }
+        
+        .minimal-progress {
+            color: #f39c12;
+        }
+        
+        @media print {
+            @page {
+                size: landscape;
+                margin: 15mm;
+            }
+            
+            html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                overflow: visible;
+                background: white;
+            }
+            
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+                padding: 15px;
+                max-width: 100%;
+                margin: 0;
+                width: 100%;
+                overflow: visible;
+            }
+            
+            .print-button {
+                display: none !important;
+            }
+            
+            h1 {
+                font-size: 22px;
+            }
+            
+            .summary {
+                page-break-inside: avoid;
+            }
+            
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            
+            thead {
+                display: table-header-group;
+            }
+            
+            tbody {
+                display: table-row-group;
+            }
+            
+            tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
+            
+            td, th {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="print-button" onclick="handlePrint()">Download as PDF (or press Ctrl+P / Cmd+P)</button>
+        
+        <script>
+            function handlePrint() {
+                window.print();
+            }
+        </script>
+        
+        <h1>Health and Safety Audit and Fire Risk Assessments at Newham Community Learning - Summary</h1>
+        <div class="report-date">Report Generated: October 2025 | Assessments undertaken by Judicium, the Trust's provider of health and safety advice</div>
+        
+        <div class="summary">
+            <h2>Key Concerns for Board Attention</h2>
+            <ul>
+                <li><strong>Lister Community School</strong> shows no progress visible on both assessments:
+                    <ul>
+                        <li>Fire Risk Assessment: 54 actions outstanding since 14 Jan 2025</li>
+                        <li>Health & Safety Audit: 24 actions outstanding since 17 Jul 2025</li>
+                        <li>Total: 78 unresolved actions with no demonstrated progress</li>
+                    </ul>
+                </li>
+                <li><strong>Sarah Bonnell School</strong> shows no progress visible on both assessments (51 total actions)</li>
+                <li><strong>Rokeby School</strong> shows mixed performance:
+                    <ul>
+                        <li>Fire Risk Assessment: 14 actions resolved with 7 approved</li>
+                        <li>Health & Safety Audit: no progress visible on 38 actions since 19 Jun 2025</li>
+                    </ul>
+                </li>
+                <li><strong>Portway Primary School</strong> shows minimal progress - only 2 actions resolved out of 20 total. Health & Safety Audit booked for this term.</li>
+                <li><strong>Selwyn Primary School</strong> has resolved 28 actions with 14 already approved. Health & Safety Audit booked for this term.</li>
+                <li><strong>Eastlea Community School</strong> has resolved 23 actions across both assessments</li>
+            </ul>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>School Name</th>
+                    <th>Current Assessment Date</th>
+                    <th>Next Termly Update</th>
+                    <th>Next Assessment Due</th>
+                    <th>High Priority (Outstanding)</th>
+                    <th>Medium Priority (Outstanding)</th>
+                    <th>Low Priority (Outstanding)</th>
+                    <th>Actions Resolved by School</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="school-name">Lister Community School</div>
+                        <div class="assessment-type">Fire Risk Assessment</div>
+                    </td>
+                    <td class="date">14 Jan 2025</td>
+                    <td class="date">1 Sept 2025</td>
+                    <td class="date">1 Jan 2026</td>
+                    <td class="actions">9 (0 resolved)</td>
+                    <td class="actions">44 (0 resolved)</td>
+                    <td class="actions">1 (0 resolved)</td>
+                    <td class="no-progress">No progress visible - all actions remain outstanding with no progress shown</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="school-name">Lister Community School</div>
+                        <div class="assessment-type">Health & Safety Audit</div>
+                    </td>
+                    <td class="date">17 Jul 2025</td>
+                    <td class="date">12 Nov 2025</td>
+                    <td class="date">1 Jun 2026</td>
+                    <td class="actions">10 (0 resolved)</td>
+                    <td class="actions">13 (0 resolved)</td>
+                    <td class="actions">1 (0 resolved)</td>
+                    <td class="no-progress">No progress visible - all actions remain outstanding with no progress shown</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="school-name">Selwyn Primary School</div>
+                        <div class="assessment-type">Fire Risk Assessment</div>
+                    </td>
+                    <td class="date">28 Jan 2025</td>
+                    <td class="date">26 Sept 2025</td>
+                    <td class="date">27 Jan 2026</td>
+                    <td class="actions">7 (1 resolved)</td>
+                    <td class="actions">24 (8 resolved)</td>
+                    <td class="actions">19 (5 resolved + 14 pending approval)</td>
+                    <td class="good-progress">
+                        Total: 28 actions resolved (awaiting consultant approval)<br>
+                        - 1 high priority<br>
+                        - 8 medium priority<br>
+                        - 5 low priority<br><br>
+                        Plus 14 low priority already approved by consultant
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="school-name">Eastlea Community School</div>
+                        <div class="assessment-type">Fire Risk Assessment</div>
+                    </td>
+                    <td class="date">17 Jan 2025</td>
+                    <td class="date">1 Sept 2025</td>
+                    <td class="date">1 Jan 2026</td>
+                    <td class="actions">8 (6 resolved)</td>
+                    <td class="actions">38 (4 resolved)</td>
+                    <td class="actions">1 (0 resolved + 10 pending approval)</td>
+                    <td class="good-progress">
+                        Total: 20 actions resolved (awaiting consultant approval)<br>
+                        - 6 high priority<br>
+                        - 4 medium priority<br>
+                        - 0 low priority<br><br>
+                        Plus 10 low priority already approved by consultant
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="school-name">Eastlea Community School</div>
+                        <div class="assessment-type">Health & Safety Audit</div>
+                    </td>
+                    <td class="date">9 May 2025</td>
+                    <td class="date">1 Nov 2025</td>
+                    <td class="date">1 May 2026</td>
+                    <td class="actions">6 (3 resolved)</td>
+                    <td class="actions">21 (0 resolved)</td>
+                    <td class="actions">1 (0 resolved)</td>
+                    <td class="good-progress">
+                        Total: 3 actions resolved (awaiting consultant approval)<br>
+                        - 3 high priority<br>
+                        - 0 medium priority<br>
+                        - 0 low priority
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="school-name">Sarah Bonnell School</div>
+                        <div class="assessment-type">Fire Risk Assessment</div>
+                    </td>
+                    <td class="date">17 Apr 2025</td>
+                    <td class="date">26 Sept 2025</td>
+                    <td class="date">16 Apr 2026</td>
+                    <td class="actions">1 (0 resolved)</td>
+                    <td class="actions">13 (0 resolved)</td>
+                    <td class="actions">5 (0 resolved)</td>
+                    <td class="no-progress">No progress visible - all actions remain outstanding with no progress shown</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="school-name">Sarah Bonnell School</div>
+                        <div class="assessment-type">Health & Safety Audit</div>
+                    </td>
+                    <td class="date">17 Mar 2025</td>
+                    <td class="date">26 Sept 2025</td>
+                    <td class="date">16 Mar 2026</td>
+                    <td class="actions">0</td>
+                    <td class="actions">8 (0 resolved)</td>
+                    <td class="actions">24 (0 resolved)</td>
+                    <td class="no-progress">No progress visible - all actions remain outstanding with no progress shown</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="school-name">Rokeby School</div>
+                        <div class="assessment-type">Fire Risk Assessment</div>
+                    </td>
+                    <td class="date">16 Jan 2025</td>
+                    <td class="date">26 Sept 2025</td>
+                    <td class="date">15 Jan 2026</td>
+                    <td class="actions">2 (2 resolved)</td>
+                    <td class="actions">16 (5 resolved)</td>
+                    <td class="actions">3 (0 resolved + 7 pending approval)</td>
+                    <td class="good-progress">
+                        Total: 14 actions resolved (awaiting consultant approval)<br>
+                        - 2 high priority<br>
+                        - 5 medium priority<br>
+                        - 0 low priority<br><br>
+                        Plus 7 low priority already approved by consultant
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="school-name">Rokeby School</div>
+                        <div class="assessment-type">Health & Safety Audit</div>
+                    </td>
+                    <td class="date">19 Jun 2025</td>
+                    <td class="date">26 Sept 2025</td>
+                    <td class="date">18 Jun 2026</td>
+                    <td class="actions">0</td>
+                    <td class="actions">12 (0 resolved)</td>
+                    <td class="actions">26 (0 resolved)</td>
+                    <td class="no-progress">No progress visible - all actions remain outstanding with no progress shown</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="school-name">Portway Primary School</div>
+                        <div class="assessment-type">Fire Risk Assessment</div>
+                    </td>
+                    <td class="date">20 Jan 2025</td>
+                    <td class="date">26 Sept 2025</td>
+                    <td class="date">19 Jan 2026</td>
+                    <td class="actions">2 (0 resolved)</td>
+                    <td class="actions">11 (1 resolved)</td>
+                    <td class="actions">7 (0 resolved + 1 pending approval)</td>
+                    <td class="minimal-progress">
+                        Total: 2 actions resolved (awaiting consultant approval)<br>
+                        - 0 high priority<br>
+                        - 1 medium priority<br>
+                        - 0 low priority<br><br>
+                        Plus 1 low priority already approved by consultant
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
