@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NCL Risk Register - October 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        const AlertTriangle = ({ size = 24, className = "" }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+        );
+
+        const Filter = ({ size = 24, className = "" }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+            </svg>
+        );
+
+        const X = ({ size = 24, className = "" }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        );
+
+        const RiskRegister = () => {
+            const [filterSeverity, setFilterSeverity] = useState('all');
+            const [filterType, setFilterType] = useState('all');
+
+            const risks = [
+                {
+                    id: 1,
+                    type: 'Safeguarding & Compliance',
+                    title: 'Safeguarding',
+                    severity: 'High',
+                    responsible: 'Andy Hemmings - Trust Director of Education and Deputy CEO',
+                    mitigations: [
+                        'Safeguarding training completed for all staff at start of term',
+                        'IAM Compliant tracking of readership of Trust Safeguarding Policy'
+                    ],
+                    residualRisks: [
+                        'Potential capacity issue as Director of Education is responsible for Trust safeguarding and is additionally the Deputy CEO'
+                    ]
+                },
+                {
+                    id: 2,
+                    type: 'Staff & HR',
+                    title: 'Staff - Compliant Employment Practices',
+                    severity: 'Very High',
+                    responsible: 'Liz Hayden - HR Director (interim)',
+                    mitigations: [
+                        'Interim HR Director in place',
+                        'New team forming and appointments made to ensure consistent practices',
+                        'Successful migration to a single HR system',
+                        'Successful migration to an integrated payroll system ensuring accurate and timely data sets',
+                        'New HR Advisory partner in place - Judicium Education'
+                    ],
+                    residualRisks: [
+                        'Significant changes to internal processes across all areas due to change in HR and payroll advisory services',
+                        'Significant change due to departure of personnel',
+                        'HR Director is interim and part time',
+                        'Ongoing work to bed down restructure process',
+                        'New ways of working with Headteachers - will not have HR personnel on site at all times',
+                        'Potential challenge from unions re policy updates'
+                    ]
+                },
+                {
+                    id: 3,
+                    type: 'Staff & HR',
+                    title: 'Staff - Professional Development',
+                    severity: 'Medium',
+                    responsible: 'Kate Naylor - Trust Director of Development',
+                    mitigations: [
+                        'Learning Day planned for 21 November, taking feedback from last year into account',
+                        'New HR systems allow for better management of professional development records and appraisals',
+                        'Trust is able to retain talent across schools'
+                    ],
+                    residualRisks: [
+                        'Departure of talent due to restructure - as well as those identified for voluntary redundancies, additional unplanned departures'
+                    ]
+                },
+                {
+                    id: 4,
+                    type: 'Staff & HR',
+                    title: 'Staff - Supporting Wellbeing Practices',
+                    severity: 'Medium',
+                    responsible: 'Liz Hayden - HR Director (interim)',
+                    mitigations: [
+                        'Procurement of a single supplier of staff support services to ensure robust contract management'
+                    ],
+                    residualRisks: [
+                        'Restructure and falling rolls may lead to uncertainty amongst staff'
+                    ]
+                },
+                {
+                    id: 5,
+                    type: 'Leadership & Governance',
+                    title: 'Staff - Leadership Risk',
+                    severity: 'Very High',
+                    responsible: 'Anthony Wilson - CEO',
+                    mitigations: [
+                        'New Central Team structure in place to ensure a consistent and professional service is delivered to schools across HR, Finance, Estates and Health and Safety',
+                        'Evaluation and appointment of trusted advisory services to support in these areas'
+                    ],
+                    residualRisks: [
+                        'Post appointment of professional advisory services, a lack of internal capacity to work with the supplier to ensure competent delivery of services',
+                        'Internal promotions and new appointments within the restructured organisation will inevitably mean there is a learning curve at a time of significant change',
+                        'Lack of capacity in the finance team',
+                        'Estates team headed by a new interim',
+                        'HR team headed by a part time interim',
+                        'Intermittent lack of availability of key personnel in the Central Team',
+                        'Additional restructuring across teaching and support staff may be required due to falling rolls'
+                    ]
+                },
+                {
+                    id: 6,
+                    type: 'Health & Safety',
+                    title: 'Health and Safety',
+                    severity: 'Very High',
+                    responsible: 'Lucia Glynn / Scott Fellows - Transformation Manager / Interim Head of Estates',
+                    mitigations: [
+                        'Procurement of a single provider of competent advice - Judicium Education',
+                        'H&S and Fire RA statutory audits undertaken and results displayed on a live interactive platform to enable the closing down of actions by the school based team',
+                        'Comprehensive H&S and Fire training offered through IAM Compliant',
+                        'Key H&S information shared via IAM Compliant and readership report provided to Board',
+                        'H&S audit and Fire RA actions reported to the Board'
+                    ],
+                    residualRisks: [
+                        'Delay in the carrying out of the primary H&S Audits - to be completed this term',
+                        'Delay in delivery of H&S training via IAM Compliant at the secondaries',
+                        'Restructure has led to/will lead to departure of a number of key school based personnel',
+                        'Arrangements across the schools in this area are inconsistent'
+                    ]
+                },
+                {
+                    id: 7,
+                    type: 'Estates & Premises',
+                    title: 'Premises',
+                    severity: 'Very High',
+                    responsible: 'Lucia Glynn / Scott Fellows - Transformation Manager / Interim Head of Estates',
+                    mitigations: [
+                        'Creation of a Head of Estates post to facilitate strategic estates management across the Trust',
+                        'Use of IAM Compliant at primaries and Eastlea to ensure that statutory testing is undertaken and reported on',
+                        'Helpdesk available through IAM Compliant allows for tracking of areas of concern across schools',
+                        'One off jobs/projects managed through IAM Compliant',
+                        'Phase 1 of the commission of an external consultancy to review the efficacy of the PFI arrangements will be completed this term',
+                        'Additional commissioning of an external consultancy to review the use of the Trust\'s estate to allow for strategic planning'
+                    ],
+                    residualRisks: [
+                        'Inconsistent use of IAM Compliant across the Trust\'s estate',
+                        'A mix of arrangements is in place: estates are internally managed at primaries and Eastlea; PFI at Lister and Rokeby and outsourced at Sarah Bonnell',
+                        'Significant challenges with the provision of information from outsourced and PFI partners',
+                        'Contract ending at Sarah Bonnell on 31 March 2026 - capacity for procurement of new contract',
+                        'Lack of capacity to effectively manage the Trust\'s SCA (school condition allowance) funding',
+                        'Lack of capacity to effectively manage the overall state of the Trust\'s estates'
+                    ]
+                },
+                {
+                    id: 8,
+                    type: 'Educational Performance',
+                    title: 'Vision and Values of the Trust and Academic Standards',
+                    severity: 'Very High',
+                    responsible: 'Anthony Wilson - CEO',
+                    mitigations: [
+                        'Trust\'s schools have had 5 visits from Ofsted in the previous academic year with all schools rated as Good or Outstanding (primaries)',
+                        'Strong results from primaries and Rokeby at the end of the previous academic year',
+                        'Funding secured to open a nursery provision for younger children at Portway from January 2026',
+                        'Appointment of a Trust Equalities Lead',
+                        'The Trust continues to support all local students and advocate for their needs'
+                    ],
+                    residualRisks: [
+                        'Results across Eastlea, Sarah Bonnell and Lister were not as strong as predicted',
+                        'Assessment systems remain inconsistent across the Trust',
+                        'Climate of falling rolls is a significant challenge to the Trust',
+                        'Two of the Trust\'s schools are significantly below PAN'
+                    ]
+                },
+                {
+                    id: 9,
+                    type: 'Finance',
+                    title: 'Financial Integrity of the Trust',
+                    severity: 'Very High',
+                    responsible: 'Abi Ejiofor - CFO',
+                    mitigations: [
+                        'Key financial compliance tasks undertaken',
+                        'Restructure of finance team to ensure consistent practices are applied and that knowledge is shared',
+                        'Significant work undertaken to review and rationalise the Trust\'s contracts, ensuring value for money is achieved',
+                        'Change progress from a large number of locally sourced contracts to a far smaller number of contracts that are centrally procured and managed',
+                        'Contracts Register for all centrally procured contracts has been developed'
+                    ],
+                    residualRisks: [
+                        'Context of falling rolls across the Borough; two of the Trust\'s schools are significantly below PAN which results in funding challenges',
+                        'Lack of capacity in the team due to departure of Trust based personnel',
+                        'Intermittent lack of availability of key personnel',
+                        'Workload concerns regarding some key members of the team based at schools',
+                        'Lack of knowledge in the current team regarding the financial management of new projects undertaken by the Trust with external funding'
+                    ]
+                },
+                {
+                    id: 10,
+                    type: 'Leadership & Governance',
+                    title: 'Capacity of the Trust Board to Discharge its Duties',
+                    severity: 'High',
+                    responsible: 'Anthony Wilson - CEO',
+                    mitigations: [
+                        'Re-engagement of the Trust\'s governor services support arrangements, leveraging the effective partnership that has been built',
+                        'Equalities training delivered by the Trust\'s Equalities Lead',
+                        'Programme of meetings provided in advance'
+                    ],
+                    residualRisks: [
+                        'Lack of clarity in governance arrangements due to personnel changes',
+                        'Additional recruitment of governors required at a number of schools and lack of capacity to progress this'
+                    ]
+                },
+                {
+                    id: 11,
+                    type: 'Data & Compliance',
+                    title: 'Data Protection',
+                    severity: 'High',
+                    responsible: 'Andy Hemmings - Deputy CEO',
+                    mitigations: [
+                        'Use of a smaller number of Trust wide digital systems, robustly procured, minimises data protection risks',
+                        'Well established data protection policies and procedures in place',
+                        'Named local leads',
+                        'Confirmation that key information has been circulated via IAM Compliant, with associated reporting available to the Board'
+                    ],
+                    residualRisks: [
+                        'DPO is currently the Deputy CEO - capacity concerns already identified',
+                        'Need for additional support identified',
+                        'Climate of increasingly complex subject access requests',
+                        'Inconsistent practice across the Trust',
+                        'Training provided through IAM Compliant but not yet undertaken at the secondaries'
+                    ]
+                },
+                {
+                    id: 12,
+                    type: 'Data & Compliance',
+                    title: 'Cyber Security',
+                    severity: 'High',
+                    responsible: 'Joskos - new managed service provider',
+                    mitigations: [
+                        'Appointment of a single IT Managed Service Provider across the Trust to ensure a single contract is managed',
+                        'Necessary expertise available and consistent',
+                        'Disaster recovery plan in progress',
+                        'Move from Trust systems that relied on local servers to cloud based systems significantly enhances security',
+                        'Key training materials delivered via IAM Compliant',
+                        'Board reporting available'
+                    ],
+                    residualRisks: [
+                        'Outstanding training requirements at a number of the secondary schools; this training is required by the Trust\'s RPA cover',
+                        'Disaster recovery plan not yet in place'
+                    ]
+                },
+                {
+                    id: 13,
+                    type: 'Environmental',
+                    title: 'Sustainability and Climate Change Resilience',
+                    severity: 'High',
+                    responsible: 'Lucia Glynn / Scott Fellows - Transformation Manager / Interim Head of Estates',
+                    mitigations: [
+                        'Creation of the Head of Estates role to add capacity and improve strategic planning',
+                        'IAM Compliant has developed a sustainability module ready for use',
+                        'Various free support has been identified as available through the DfE'
+                    ],
+                    residualRisks: [
+                        'Lack of capacity means that the Trust is not compliant with the DfE\'s sustainability and climate change resilience expectations',
+                        'Reputational risk and possible funding streams risk',
+                        'Some of the Trust\'s estate is old and will be very costly to adapt',
+                        'Requirement to identify specific climate risks across the estate'
+                    ]
+                }
+            ];
+
+            const riskTypes = ['all', ...Array.from(new Set(risks.map(r => r.type)))];
+            const severityLevels = ['all', 'Very High', 'High', 'Medium'];
+
+            const filteredRisks = risks.filter(risk => {
+                const severityMatch = filterSeverity === 'all' || risk.severity === filterSeverity;
+                const typeMatch = filterType === 'all' || risk.type === filterType;
+                return severityMatch && typeMatch;
+            });
+
+            const getSeverityColor = (severity) => {
+                switch (severity) {
+                    case 'Very High':
+                        return 'bg-red-100 text-red-800 border-red-300';
+                    case 'High':
+                        return 'bg-orange-100 text-orange-800 border-orange-300';
+                    case 'Medium':
+                        return 'bg-yellow-100 text-yellow-800 border-yellow-300';
+                    default:
+                        return 'bg-gray-100 text-gray-800 border-gray-300';
+                }
+            };
+
+            const clearFilters = () => {
+                setFilterSeverity('all');
+                setFilterType('all');
+            };
+
+            return (
+                <div className="max-w-7xl mx-auto p-6 bg-gray-50">
+                    <div className="mb-6">
+                        <div className="flex items-center gap-3 mb-2">
+                            <AlertTriangle size={32} className="text-red-600" />
+                            <h1 className="text-3xl font-bold text-gray-900">Newham Community Learning</h1>
+                        </div>
+                        <h2 className="text-xl text-gray-700 mb-4">Trust Risk Register - October 2025</h2>
+                        
+                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                            <p className="text-sm text-blue-900">
+                                <strong>Summary:</strong> This register contains 13 identified risks across the Trust with 6 rated Very High, 4 rated High, and 3 rated Medium.
+                            </p>
+                        </div>
+
+                        <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+                            <div className="flex items-center gap-2 mb-3">
+                                <Filter size={20} className="text-gray-600" />
+                                <h3 className="font-semibold text-gray-900">Filters</h3>
+                            </div>
+                            
+                            <div className="flex flex-wrap gap-4 items-end">
+                                <div className="flex-1 min-w-48">
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        Risk Severity
+                                    </label>
+                                    <select
+                                        value={filterSeverity}
+                                        onChange={(e) => setFilterSeverity(e.target.value)}
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    >
+                                        {severityLevels.map(level => (
+                                            <option key={level} value={level}>
+                                                {level === 'all' ? 'All Severities' : level}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+
+                                <div className="flex-1 min-w-48">
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        Risk Type
+                                    </label>
+                                    <select
+                                        value={filterType}
+                                        onChange={(e) => setFilterType(e.target.value)}
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    >
+                                        {riskTypes.map(type => (
+                                            <option key={type} value={type}>
+                                                {type === 'all' ? 'All Types' : type}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+
+                                {(filterSeverity !== 'all' || filterType !== 'all') && (
+                                    <button
+                                        onClick={clearFilters}
+                                        className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md flex items-center gap-2 transition-colors"
+                                    >
+                                        <X size={16} />
+                                        Clear Filters
+                                    </button>
+                                )}
+                            </div>
+
+                            <div className="mt-3 text-sm text-gray-600">
+                                Showing {filteredRisks.length} of {risks.length} risks
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="space-y-4">
+                        {filteredRisks.map(risk => (
+                            <div key={risk.id} className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+                                <div className="p-5">
+                                    <div className="flex items-start justify-between mb-3">
+                                        <div className="flex-1">
+                                            <div className="flex items-center gap-3 mb-2">
+                                                <span className="text-sm font-medium text-gray-500">Risk {risk.id}</span>
+                                                <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${getSeverityColor(risk.severity)}`}>
+                                                    {risk.severity}
+                                                </span>
+                                                <span className="px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+                                                    {risk.type}
+                                                </span>
+                                            </div>
+                                            <h3 className="text-xl font-bold text-gray-900 mb-2">{risk.title}</h3>
+                                        </div>
+                                    </div>
+
+                                    <div className="mb-4 pb-4 border-b border-gray-200">
+                                        <p className="text-sm font-semibold text-gray-700 mb-1">Responsible Person:</p>
+                                        <p className="text-sm text-gray-900">{risk.responsible}</p>
+                                    </div>
+
+                                    <div className="grid md:grid-cols-2 gap-6">
+                                        <div>
+                                            <h4 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                                                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                                                Mitigation Progress
+                                            </h4>
+                                            <ul className="space-y-2">
+                                                {risk.mitigations.map((mitigation, idx) => (
+                                                    <li key={idx} className="text-sm text-gray-700 pl-4 border-l-2 border-green-200">
+                                                        {mitigation}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+
+                                        <div>
+                                            <h4 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                                                <span className="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                                New and Residual Risks
+                                            </h4>
+                                            <ul className="space-y-2">
+                                                {risk.residualRisks.map((residual, idx) => (
+                                                    <li key={idx} className="text-sm text-gray-700 pl-4 border-l-2 border-amber-200">
+                                                        {residual}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {filteredRisks.length === 0 && (
+                        <div className="bg-white border border-gray-200 rounded-lg p-8 text-center">
+                            <p className="text-gray-500">No risks match the selected filters.</p>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<RiskRegister />);
+    </script>
+</body>
+</html>
