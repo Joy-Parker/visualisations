@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NCL Trust Secondary Schools Performance Report 2023/24</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #34495e;
+        }
+        .chart-container {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        canvas {
+            max-height: 400px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        .rag-green {
+            background-color: #2ecc71;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .rag-amber {
+            background-color: #f39c12;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .rag-red {
+            background-color: #e74c3c;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .summary-box {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .insight {
+            background-color: #ecf0f1;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #3498db;
+            border-radius: 4px;
+        }
+        .strength {
+            border-left-color: #2ecc71;
+        }
+        .concern {
+            border-left-color: #e74c3c;
+        }
+        ul {
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+    <h1>Newham Community Learning Trust<br>Secondary Schools Performance Report 2023/24</h1>
+    
+    <div class="summary-box">
+        <h2>Executive Summary</h2>
+        <p>This report analyzes performance data for the four secondary schools in Newham Community Learning Trust:</p>
+        <ul>
+            <li><strong>Lister Community School</strong> (1,497 pupils, mixed, ages 11-16)</li>
+            <li><strong>Eastlea Community School</strong> (689 pupils, mixed, ages 11-16)</li>
+            <li><strong>Sarah Bonnell School</strong> (1,275 pupils, girls only, ages 11-16)</li>
+            <li><strong>Rokeby School</strong> (588 pupils, boys only, ages 11-16)</li>
+        </ul>
+        <p>Data is compared against Local Authority (Newham) and National (England) benchmarks.</p>
+    </div>
+
+    <h2>RAG-Rated Performance Comparison</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Metric</th>
+                <th>Lister</th>
+                <th>Eastlea</th>
+                <th>Sarah Bonnell</th>
+                <th>Rokeby</th>
+                <th>LA Target</th>
+                <th>National</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Overall Absence</strong></td>
+                <td><span class="rag-green">8.2%</span></td>
+                <td><span class="rag-green">8.2%</span></td>
+                <td><span class="rag-green">8.1%</span></td>
+                <td><span class="rag-green">7.8%</span></td>
+                <td>7%</td>
+                <td>8.9%</td>
+            </tr>
+            <tr>
+                <td><strong>Persistent Absence</strong></td>
+                <td><span class="rag-amber">25.5%</span></td>
+                <td><span class="rag-red">27%</span></td>
+                <td><span class="rag-amber">25.2%</span></td>
+                <td><span class="rag-amber">24.5%</span></td>
+                <td>21%</td>
+                <td>25.6%</td>
+            </tr>
+            <tr>
+                <td><strong>FSM Eligible (6 years)</strong></td>
+                <td>54.98%</td>
+                <td>56.89%</td>
+                <td>56.39%</td>
+                <td>55.95%</td>
+                <td>-</td>
+                <td>28.9%</td>
+            </tr>
+            <tr>
+                <td><strong>EAL Pupils</strong></td>
+                <td>65.10%</td>
+                <td>59.40%</td>
+                <td>54.30%</td>
+                <td>81.30%</td>
+                <td>-</td>
+                <td>19.2%</td>
+            </tr>
+            <tr>
+                <td><strong>Total Pupils</strong></td>
+                <td>1,497</td>
+                <td>689</td>
+                <td>1,275</td>
+                <td>588</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Detailed Performance Charts</h2>
+
+    <div class="chart-container">
+        <h3>1. Overall Absence Comparison (2023/24)</h3>
+        <canvas id="absenceChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <h3>2. Persistent Absence Comparison (2023/24)</h3>
+        <canvas id="persistentChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <h3>3. Free School Meals Eligibility (2024/25)</h3>
+        <canvas id="fsmChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <h3>4. English as Additional Language (2024/25)</h3>
+        <canvas id="ealChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <h3>5. SEN Profile Comparison (2024/25)</h3>
+        <canvas id="senChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <h3>6. School Size Comparison (2024/25)</h3>
+        <canvas id="sizeChart"></canvas>
+    </div>
+
+    <div class="summary-box">
+        <h2>Key Insights for Governors</h2>
+        
+        <div class="insight strength">
+            <h3>✓ Strengths</h3>
+            <ul>
+                <li><strong>Overall Absence Performance:</strong> All four schools perform at or better than the national average (8.9%), with Rokeby leading at 7.8%</li>
+                <li><strong>Strong Performance Despite Context:</strong> Schools achieve good attendance despite serving highly deprived communities (FSM rates 2× national average)</li>
+                <li><strong>Rokeby's Excellence:</strong> Best overall absence rate in the trust at 7.8%, very close to LA target of 7%</li>
+            </ul>
+        </div>
+
+        <div class="insight concern">
+            <h3>⚠ Areas for Development</h3>
+            <ul>
+                <li><strong>Persistent Absence:</strong> All schools significantly above LA target (21%)
+                    <ul>
+                        <li>Eastlea: 27% (highest concern - RED rating)</li>
+                        <li>Lister: 25.5%</li>
+                        <li>Sarah Bonnell: 25.2%</li>
+                        <li>Rokeby: 24.5% (best in trust, but still above target)</li>
+                    </ul>
+                </li>
+                <li><strong>Eastlea Requires Focus:</strong> Smallest school (689 pupils) with highest persistent absence - may need targeted intervention</li>
+            </ul>
+        </div>
+
+        <div class="insight">
+            <h3>📊 Context & Observations</h3>
+            <ul>
+                <li><strong>High Deprivation Context:</strong> All schools serve communities with FSM rates of 54-57% (nearly double national 28.9%)</li>
+                <li><strong>Exceptional Linguistic Diversity:</strong> Rokeby has 81.3% EAL pupils (over 4× national average), requiring significant additional support</li>
+                <li><strong>Single-Sex School Pattern:</strong> Sarah Bonnell (girls) and Rokeby (boys) both show notably lower SEN rates than mixed schools</li>
+                <li><strong>Size Variation:</strong> Significant range from 588 (Rokeby) to 1,497 (Lister) pupils may impact resource allocation and economies of scale</li>
+            </ul>
+        </div>
+
+        <h3>Strategic Recommendations</h3>
+        <ol>
+            <li><strong>Persistent Absence Strategy:</strong> Develop trust-wide intervention program targeting the 21% LA benchmark, with priority support for Eastlea</li>
+            <li><strong>Share Best Practice:</strong> Investigate Rokeby's approaches to overall attendance (7.8%) for trust-wide implementation</li>
+            <li><strong>EAL Support Review:</strong> Assess whether Rokeby's exceptional EAL population (81.3%) has adequate resource allocation</li>
+            <li><strong>Eastlea Support:</strong> Consider additional resources for smallest school with highest persistent absence</li>
+            <li><strong>Celebrate Success:</strong> Recognize strong overall absence performance across the trust despite challenging context</li>
+        </ol>
+    </div>
+
+    <script>
+        // Chart.js configuration
+        const chartOptions = {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                }
+            }
+        };
+
+        // 1. Overall Absence Chart
+        new Chart(document.getElementById('absenceChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Lister', 'Eastlea', 'Sarah Bonnell', 'Rokeby', 'LA Target', 'National'],
+                datasets: [{
+                    label: 'Overall Absence %',
+                    data: [8.2, 8.2, 8.1, 7.8, 7.0, 8.9],
+                    backgroundColor: [
+                        'rgba(52, 152, 219, 0.8)',
+                        'rgba(52, 152, 219, 0.8)',
+                        'rgba(52, 152, 219, 0.8)',
+                        'rgba(52, 152, 219, 0.8)',
+                        'rgba(46, 204, 113, 0.8)',
+                        'rgba(149, 165, 166, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(52, 152, 219, 1)',
+                        'rgba(52, 152, 219, 1)',
+                        'rgba(52, 152, 219, 1)',
+                        'rgba(52, 152, 219, 1)',
+                        'rgba(46, 204, 113, 1)',
+                        'rgba(149, 165, 166, 1)'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                ...chartOptions,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Absence Rate (%)'
+                        }
+                    }
+                }
+            }
+        });
+
+        // 2. Persistent Absence Chart
+        new Chart(document.getElementById('persistentChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Lister', 'Eastlea', 'Sarah Bonnell', 'Rokeby', 'LA Target', 'National'],
+                datasets: [{
+                    label: 'Persistent Absence %',
+                    data: [25.5, 27.0, 25.2, 24.5, 21.0, 25.6],
+                    backgroundColor: [
+                        'rgba(243, 156, 18, 0.8)',
+                        'rgba(231, 76, 60, 0.8)',
+                        'rgba(243, 156, 18, 0.8)',
+                        'rgba(243, 156, 18, 0.8)',
+                        'rgba(46, 204, 113, 0.8)',
+                        'rgba(149, 165, 166, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(243, 156, 18, 1)',
+                        'rgba(231, 76, 60, 1)',
+                        'rgba(243, 156, 18, 1)',
+                        'rgba(243, 156, 18, 1)',
+                        'rgba(46, 204, 113, 1)',
+                        'rgba(149, 165, 166, 1)'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                ...chartOptions,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Persistent Absence Rate (%)'
+                        }
+                    }
+                }
+            }
+        });
+
+        // 3. FSM Chart
+        new Chart(document.getElementById('fsmChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Lister', 'Eastlea', 'Sarah Bonnell', 'Rokeby', 'National'],
+                datasets: [{
+                    label: 'FSM Eligible (past 6 years) %',
+                    data: [54.98, 56.89, 56.39, 55.95, 28.9],
+                    backgroundColor: [
+                        'rgba(155, 89, 182, 0.8)',
+                        'rgba(155, 89, 182, 0.8)',
+                        'rgba(155, 89, 182, 0.8)',
+                        'rgba(155, 89, 182, 0.8)',
+                        'rgba(149, 165, 166, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(155, 89, 182, 1)',
+                        'rgba(155, 89, 182, 1)',
+                        'rgba(155, 89, 182, 1)',
+                        'rgba(155, 89, 182, 1)',
+                        'rgba(149, 165, 166, 1)'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                ...chartOptions,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'FSM Eligibility (%)'
+                        }
+                    }
+                }
+            }
+        });
+
+        // 4. EAL Chart
+        new Chart(document.getElementById('ealChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Lister', 'Eastlea', 'Sarah Bonnell', 'Rokeby', 'National'],
+                datasets: [{
+                    label: 'EAL Pupils %',
+                    data: [65.10, 59.40, 54.30, 81.30, 19.2],
+                    backgroundColor: [
+                        'rgba(26, 188, 156, 0.8)',
+                        'rgba(26, 188, 156, 0.8)',
+                        'rgba(26, 188, 156, 0.8)',
+                        'rgba(231, 76, 60, 0.8)',
+                        'rgba(149, 165, 166, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(26, 188, 156, 1)',
+                        'rgba(26, 188, 156, 1)',
+                        'rgba(26, 188, 156, 1)',
+                        'rgba(231, 76, 60, 1)',
+                        'rgba(149, 165, 166, 1)'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                ...chartOptions,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'EAL Percentage (%)'
+                        }
+                    }
+                }
+            }
+        });
+
+        // 5. SEN Chart
+        new Chart(document.getElementById('senChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Lister', 'Eastlea', 'Sarah Bonnell', 'Rokeby'],
+                datasets: [
+                    {
+                        label: 'EHCP %',
+                        data: [4.01, 4.64, 2.90, 1.19],
+                        backgroundColor: 'rgba(52, 73, 94, 0.8)',
+                        borderColor: 'rgba(52, 73, 94, 1)',
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'SEN Support %',
+                        data: [10.35, 16.40, 5.10, 11.22],
+                        backgroundColor: 'rgba(127, 140, 141, 0.8)',
+                        borderColor: 'rgba(127, 140, 141, 1)',
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'National EHCP %',
+                        data: [3.09, 3.09, 3.09, 3.09],
+                        backgroundColor: 'rgba(46, 204, 113, 0.3)',
+                        borderColor: 'rgba(46, 204, 113, 1)',
+                        borderWidth: 2,
+                        borderDash: [5, 5]
+                    },
+                    {
+                        label: 'National SEN Support %',
+                        data: [13.4, 13.4, 13.4, 13.4],
+                        backgroundColor: 'rgba(241, 196, 15, 0.3)',
+                        borderColor: 'rgba(241, 196, 15, 1)',
+                        borderWidth: 2,
+                        borderDash: [5, 5]
+                    }
+                ]
+            },
+            options: {
+                ...chartOptions,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Percentage (%)'
+                        }
+                    }
+                }
+            }
+        });
+
+        // 6. School Size Chart
+        new Chart(document.getElementById('sizeChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Lister', 'Eastlea', 'Sarah Bonnell', 'Rokeby'],
+                datasets: [{
+                    label: 'Total Pupils on Roll',
+                    data: [1497, 689, 1275, 588],
+                    backgroundColor: [
+                        'rgba(52, 152, 219, 0.8)',
+                        'rgba(231, 76, 60, 0.8)',
+                        'rgba(155, 89, 182, 0.8)',
+                        'rgba(26, 188, 156, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(52, 152, 219, 1)',
+                        'rgba(231, 76, 60, 1)',
+                        'rgba(155, 89, 182, 1)',
+                        'rgba(26, 188, 156, 1)'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                ...chartOptions,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Pupils'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+    <footer style="text-align: center; margin-top: 40px; padding: 20px; color: #7f8c8d; border-top: 1px solid #ddd;">
+        <p>Newham Community Learning Trust - Secondary Schools Performance Report</p>
+        <p>Data Source: DfE Compare School Performance Service | Academic Year 2023/24 - 2024/25</p>
+        <p>Generated: <?php echo date('F Y'); ?></p>
+    </footer>
+</body>
+</html>
