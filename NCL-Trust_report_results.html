@@ -1,1 +1,502 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NCL Secondary Schools Results 2024/25</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            border-bottom: 3px solid #2c7873;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #2c7873;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .intro {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .context-section {
+            background-color: #f8f9fa;
+            border-left: 4px solid #2c7873;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .context-section h2 {
+            color: #2c7873;
+            font-size: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .context-section h2::before {
+            content: "📊";
+            margin-right: 10px;
+        }
+        
+        .context-list {
+            list-style-position: inside;
+            color: #333;
+        }
+        
+        .context-list li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        .context-list strong {
+            color: #2c7873;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .metric-card {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+        
+        .metric-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .school-performance {
+            margin-bottom: 12px;
+        }
+        
+        .school-name {
+            font-size: 13px;
+            color: #333;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .bar-container {
+            background-color: #f0f0f0;
+            height: 28px;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .bar {
+            height: 100%;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 8px;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            transition: width 1s ease;
+        }
+        
+        .bar-sarah { background-color: #e91e63; }
+        .bar-rokeby { background-color: #9c27b0; }
+        .bar-lister { background-color: #3f51b5; }
+        .bar-eastlea { background-color: #00bcd4; }
+        .bar-la { background-color: #757575; }
+        .bar-england { background-color: #bdbdbd; }
+        
+        .benchmark-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .benchmark-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 3px;
+        }
+        
+        .recommendations {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .recommendations h2 {
+            color: #856404;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .recommendations ol {
+            margin-left: 20px;
+            color: #333;
+        }
+        
+        .recommendations li {
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+        
+        .recommendations strong {
+            color: #856404;
+        }
+        
+        .note {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #1565c0;
+        }
+        
+        @media (max-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Newham Community Learning - Secondary Schools Exam Results 2024/25</h1>
+            <p class="intro">
+                This report presents the 2024/25 exam results for NCL's four secondary schools: Sarah Bonnell School, 
+                Rokeby School, Lister Community School, and Eastlea Community School. Data is from the DfE Compare Schools service, 
+                published October 2025. All comparisons include Local Authority (Newham) and England averages.
+            </p>
+        </div>
+        
+        <div class="context-section">
+            <h2>Context & Key Observations</h2>
+            <ul class="context-list">
+                <li><strong>Performance Spread:</strong> Significant variation across schools - Attainment 8 ranges from 41.4 (Eastlea) to 56.6 (Sarah Bonnell), spanning 15.2 points</li>
+                <li><strong>Girls' School Excellence:</strong> Sarah Bonnell (56.6) significantly outperforms all schools, achieving 5.5 points above LA average</li>
+                <li><strong>Eastlea Challenge:</strong> Eastlea faces substantial challenges with Grade 5+ performance at 27.0% (26.1 points below LA average of 53.1%)</li>
+                <li><strong>EBacc Entry Paradox:</strong> Lister has highest EBacc entry (86.4%) but third-lowest Attainment 8 (44.1), suggesting potential curriculum appropriateness issues</li>
+                <li><strong>Destinations Strength:</strong> Three of four schools meet or exceed national averages for staying in education/employment post-16</li>
+                <li><strong>Boys' School Performance:</strong> Both Rokeby (50.6) and Eastlea (41.4) perform below LA average, with Eastlea requiring urgent intervention</li>
+                <li><strong>No Progress 8 Data:</strong> Unable to assess value-added due to missing KS2 baseline data for 2024/25 and 2025/26 cohorts</li>
+            </ul>
+        </div>
+        
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-title">Attainment 8 Score</div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Sarah Bonnell School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-sarah" style="width: 0%;" data-width="94.3%">56.6</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Rokeby School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-rokeby" style="width: 0%;" data-width="84.3%">50.6</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Lister Community School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-lister" style="width: 0%;" data-width="73.5%">44.1</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Eastlea Community School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-eastlea" style="width: 0%;" data-width="69.0%">41.4</div>
+                    </div>
+                </div>
+                
+                <div class="benchmark-section">
+                    <div class="school-performance">
+                        <div class="benchmark-label">Local Authority Average</div>
+                        <div class="bar-container">
+                            <div class="bar bar-la" style="width: 0%;" data-width="85.2%">51.1</div>
+                        </div>
+                    </div>
+                    
+                    <div class="school-performance">
+                        <div class="benchmark-label">England Average</div>
+                        <div class="bar-container">
+                            <div class="bar bar-england" style="width: 0%;" data-width="76.5%">45.9</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-title">Grade 5+ in English & Maths GCSEs (%)</div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Sarah Bonnell School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-sarah" style="width: 0%;" data-width="62.0%">62.0%</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Rokeby School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-rokeby" style="width: 0%;" data-width="54.3%">54.3%</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Lister Community School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-lister" style="width: 0%;" data-width="38.6%">38.6%</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Eastlea Community School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-eastlea" style="width: 0%;" data-width="27.0%">27.0%</div>
+                    </div>
+                </div>
+                
+                <div class="benchmark-section">
+                    <div class="school-performance">
+                        <div class="benchmark-label">Local Authority Average</div>
+                        <div class="bar-container">
+                            <div class="bar bar-la" style="width: 0%;" data-width="53.1%">53.1%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="school-performance">
+                        <div class="benchmark-label">England Average</div>
+                        <div class="bar-container">
+                            <div class="bar bar-england" style="width: 0%;" data-width="45.2%">45.2%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-title">Entering EBacc (%)</div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Lister Community School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-lister" style="width: 0%;" data-width="86.4%">86.4%</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Sarah Bonnell School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-sarah" style="width: 0%;" data-width="56.8%">56.8%</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Rokeby School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-rokeby" style="width: 0%;" data-width="41.4%">41.4%</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Eastlea Community School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-eastlea" style="width: 0%;" data-width="38.0%">38.0%</div>
+                    </div>
+                </div>
+                
+                <div class="benchmark-section">
+                    <div class="school-performance">
+                        <div class="benchmark-label">Local Authority Average</div>
+                        <div class="bar-container">
+                            <div class="bar bar-la" style="width: 0%;" data-width="59.2%">59.2%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="school-performance">
+                        <div class="benchmark-label">England Average</div>
+                        <div class="bar-container">
+                            <div class="bar bar-england" style="width: 0%;" data-width="40.5%">40.5%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-title">EBacc Average Point Score</div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Sarah Bonnell School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-sarah" style="width: 0%;" data-width="85.5%">5.13</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Rokeby School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-rokeby" style="width: 0%;" data-width="75.2%">4.51</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Lister Community School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-lister" style="width: 0%;" data-width="66.5%">3.99</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Eastlea Community School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-eastlea" style="width: 0%;" data-width="60.5%">3.63</div>
+                    </div>
+                </div>
+                
+                <div class="benchmark-section">
+                    <div class="school-performance">
+                        <div class="benchmark-label">Local Authority Average</div>
+                        <div class="bar-container">
+                            <div class="bar bar-la" style="width: 0%;" data-width="77.2%">4.63</div>
+                        </div>
+                    </div>
+                    
+                    <div class="school-performance">
+                        <div class="benchmark-label">England Average</div>
+                        <div class="bar-container">
+                            <div class="bar bar-england" style="width: 0%;" data-width="68.0%">4.08</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-title">Staying in Education/Employment (%)</div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Sarah Bonnell School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-sarah" style="width: 0%;" data-width="95.0%">95%</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Lister Community School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-lister" style="width: 0%;" data-width="95.0%">95%</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Eastlea Community School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-eastlea" style="width: 0%;" data-width="92.0%">92%</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Rokeby School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-rokeby" style="width: 0%;" data-width="89.0%">89%</div>
+                    </div>
+                </div>
+                
+                <div class="benchmark-section">
+                    <div class="school-performance">
+                        <div class="benchmark-label">Local Authority Average</div>
+                        <div class="bar-container">
+                            <div class="bar bar-la" style="width: 0%;" data-width="92.0%">92%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="school-performance">
+                        <div class="benchmark-label">England Average</div>
+                        <div class="bar-container">
+                            <div class="bar bar-england" style="width: 0%;" data-width="91.0%">91%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="recommendations">
+            <h2>Strategic Recommendations</h2>
+            <ol>
+                <li><strong>Eastlea Urgent Intervention:</strong> Immediate and comprehensive support required - Grade 5+ performance at 27.0% is 26.1 percentage points below LA average. Commission external review of curriculum delivery, teaching quality, assessment practices, and student support systems.</li>
+                <li><strong>Lister Curriculum Review:</strong> Despite highest EBacc entry (86.4%), Lister achieves only 44.1 Attainment 8 and 38.6% Grade 5+ English & Maths. Review appropriateness of universal EBacc pathway and consider differentiated curriculum routes.</li>
+                <li><strong>Share Sarah Bonnell Excellence:</strong> Establish formal mechanisms to share successful strategies from Sarah Bonnell (56.6 Attainment 8, 62.0% Grade 5+) across the trust, particularly in English and Maths departments.</li>
+                <li><strong>Boys' Schools Strategy:</strong> Both boys' schools underperform compared to Sarah Bonnell. Investigate gender-specific pedagogical approaches, behavioral strategies, and aspirations work that could close this gap.</li>
+                <li><strong>EBacc Entry Strategy:</strong> Rokeby (41.4%) and Eastlea (38.0%) significantly below LA average (59.2%) for EBacc entry. Analyze barriers including student aspirations, staffing capacity, and curriculum pathways.</li>
+                <li><strong>Rokeby Destinations Concern:</strong> Rokeby's 89% staying in education/employment is 3 points below LA average. Investigate careers guidance, post-16 pathways, and transition support.</li>
+                <li><strong>Trust-Wide English & Maths Focus:</strong> Grade 5+ rates vary from 27.0% to 62.0% across schools. Establish subject networks, standardize quality assurance, and implement evidence-based interventions.</li>
+                <li><strong>Progress 8 Preparation:</strong> Plan for reintroduction of Progress 8 measures. Ensure robust KS2 data tracking, intervention strategies, and value-added analysis systems are in place.</li>
+            </ol>
+        </div>
+        
+        <div class="note">
+            <strong>Note:</strong> Progress 8 scores are not available for 2024/25 and 2025/26 academic years due to missing KS2 baseline data caused by Covid-19 disruption. 
+            This means we cannot currently assess schools' value-added contribution. Attainment measures show final outcomes but not the progress journey from KS2 starting points. 
+            This particularly impacts our understanding of school effectiveness, as raw attainment scores are heavily influenced by prior attainment and intake characteristics.
+        </div>
+    </div>
+    
+    <script>
+        // Animate bars on page load
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const bars = document.querySelectorAll('.bar');
+                bars.forEach(bar => {
+                    const targetWidth = bar.getAttribute('data-width');
+                    bar.style.width = targetWidth;
+                });
+            }, 100);
+        });
+    </script>
+</body>
+</html>
