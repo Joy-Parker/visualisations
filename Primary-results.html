@@ -1,1 +1,437 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NCL Primary Schools Results 2023/24</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            border-bottom: 3px solid #2c7873;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #2c7873;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .intro {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .context-section {
+            background-color: #f8f9fa;
+            border-left: 4px solid #2c7873;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .context-section h2 {
+            color: #2c7873;
+            font-size: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .context-section h2::before {
+            content: "📊";
+            margin-right: 10px;
+        }
+        
+        .context-list {
+            list-style-position: inside;
+            color: #333;
+        }
+        
+        .context-list li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        .context-list strong {
+            color: #2c7873;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .metric-card {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+        
+        .metric-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .school-performance {
+            margin-bottom: 12px;
+        }
+        
+        .school-name {
+            font-size: 13px;
+            color: #333;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .bar-container {
+            background-color: #f0f0f0;
+            height: 28px;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .bar {
+            height: 100%;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 8px;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            transition: width 1s ease;
+        }
+        
+        .bar-portway { background-color: #0ea238; }
+        .bar-selwyn { background-color: #e83867; }
+        .bar-carpenters { background-color: #f39c12; }
+        .bar-la { background-color: #757575; }
+        .bar-england { background-color: #bdbdbd; }
+        
+        .benchmark-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .benchmark-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 3px;
+        }
+        
+        .recommendations {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .recommendations h2 {
+            color: #856404;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .recommendations ol {
+            margin-left: 20px;
+            color: #333;
+        }
+        
+        .recommendations li {
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+        
+        .recommendations strong {
+            color: #856404;
+        }
+        
+        .note {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #1565c0;
+            line-height: 1.6;
+        }
+        
+        .partner-note {
+            background-color: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin-top: 15px;
+            font-size: 13px;
+            color: #e65100;
+            line-height: 1.6;
+        }
+        
+        @media (max-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Newham Community Learning - Primary Schools KS2 Results 2023/24</h1>
+            <p class="intro">
+                This report presents the 2023/24 KS2 results for NCL's two primary schools (Portway Primary School and Selwyn Primary School) 
+                plus Carpenters Primary School, for which NCL serves as school improvement partner. Data is from the DfE Compare Schools service, 
+                published April 2025. All comparisons include Local Authority (Newham) and England averages.
+            </p>
+        </div>
+        
+        <div class="context-section">
+            <h2>Context & Key Observations</h2>
+            <ul class="context-list">
+                <li><strong>Performance Range:</strong> Combined Reading, Writing & Maths at expected standard ranges from 62% (Carpenters) to 77% (Portway), spanning 15 percentage points</li>
+                <li><strong>Portway Excellence:</strong> Portway (77%) outperforms both LA average (74%) and England average (61%), demonstrating strong outcomes across the board</li>
+                <li><strong>Selwyn Solid Performance:</strong> Selwyn (72%) performs slightly below LA average but significantly above England average, showing consistent strength</li>
+                <li><strong>Carpenters Challenge:</strong> Carpenters (62%) requires support - higher standard attainment at 4% is significantly below LA (13%) and England (8%) averages</li>
+                <li><strong>Higher Standard Performance:</strong> Both Portway (23%) and Selwyn (22%) significantly exceed England average (8%) and LA average (13%) for higher standard attainment</li>
+                <li><strong>Scaled Scores Strength:</strong> Portway and Selwyn both achieve scaled scores of 108 in Reading and Maths, above LA (107) and England (105/104) averages</li>
+                <li><strong>Greater Depth Gap at Carpenters:</strong> Carpenters' 4% higher standard rate suggests need for targeted support for higher-attaining pupils</li>
+            </ul>
+        </div>
+        
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-title">Meeting Expected Standard in Reading, Writing & Maths (%)</div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Portway Primary School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-portway" style="width: 0%;" data-width="77%">77%</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Selwyn Primary School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-selwyn" style="width: 0%;" data-width="72%">72%</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Carpenters Primary School *</div>
+                    <div class="bar-container">
+                        <div class="bar bar-carpenters" style="width: 0%;" data-width="62%">62%</div>
+                    </div>
+                </div>
+                
+                <div class="benchmark-section">
+                    <div class="school-performance">
+                        <div class="benchmark-label">Local Authority Average</div>
+                        <div class="bar-container">
+                            <div class="bar bar-la" style="width: 0%;" data-width="74%">74%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="school-performance">
+                        <div class="benchmark-label">England Average</div>
+                        <div class="bar-container">
+                            <div class="bar bar-england" style="width: 0%;" data-width="61%">61%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-title">Achieving Higher Standard in Reading, Writing & Maths (%)</div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Portway Primary School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-portway" style="width: 0%;" data-width="92%">23%</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Selwyn Primary School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-selwyn" style="width: 0%;" data-width="88%">22%</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Carpenters Primary School *</div>
+                    <div class="bar-container">
+                        <div class="bar bar-carpenters" style="width: 0%;" data-width="16%">4%</div>
+                    </div>
+                </div>
+                
+                <div class="benchmark-section">
+                    <div class="school-performance">
+                        <div class="benchmark-label">Local Authority Average</div>
+                        <div class="bar-container">
+                            <div class="bar bar-la" style="width: 0%;" data-width="52%">13%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="school-performance">
+                        <div class="benchmark-label">England Average</div>
+                        <div class="bar-container">
+                            <div class="bar bar-england" style="width: 0%;" data-width="32%">8%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-title">Average Scaled Score in Reading</div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Portway Primary School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-portway" style="width: 0%;" data-width="90%">108</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Selwyn Primary School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-selwyn" style="width: 0%;" data-width="90%">108</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Carpenters Primary School *</div>
+                    <div class="bar-container">
+                        <div class="bar bar-carpenters" style="width: 0%;" data-width="87.5%">105</div>
+                    </div>
+                </div>
+                
+                <div class="benchmark-section">
+                    <div class="school-performance">
+                        <div class="benchmark-label">Local Authority Average</div>
+                        <div class="bar-container">
+                            <div class="bar bar-la" style="width: 0%;" data-width="89.2%">107</div>
+                        </div>
+                    </div>
+                    
+                    <div class="school-performance">
+                        <div class="benchmark-label">England Average</div>
+                        <div class="bar-container">
+                            <div class="bar bar-england" style="width: 0%;" data-width="87.5%">105</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-title">Average Scaled Score in Maths</div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Selwyn Primary School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-selwyn" style="width: 0%;" data-width="90%">108</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Portway Primary School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-portway" style="width: 0%;" data-width="89.2%">107</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Carpenters Primary School *</div>
+                    <div class="bar-container">
+                        <div class="bar bar-carpenters" style="width: 0%;" data-width="87.5%">105</div>
+                    </div>
+                </div>
+                
+                <div class="benchmark-section">
+                    <div class="school-performance">
+                        <div class="benchmark-label">Local Authority Average</div>
+                        <div class="bar-container">
+                            <div class="bar bar-la" style="width: 0%;" data-width="89.2%">107</div>
+                        </div>
+                    </div>
+                    
+                    <div class="school-performance">
+                        <div class="benchmark-label">England Average</div>
+                        <div class="bar-container">
+                            <div class="bar bar-england" style="width: 0%;" data-width="86.7%">104</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="recommendations">
+            <h2>Strategic Recommendations</h2>
+            <ol>
+                <li><strong>Share Portway Best Practice:</strong> Establish formal mechanisms to share Portway's successful strategies (77% expected, 23% higher) across NCL primaries and with Carpenters, particularly in developing higher-attaining pupils.</li>
+                <li><strong>Carpenters Targeted Support:</strong> Provide intensive school improvement support to Carpenters, focusing on greater depth teaching and strategies to stretch higher-attaining pupils (currently 4% vs 13% LA average).</li>
+                <li><strong>Maintain Selwyn Strength:</strong> Continue to support Selwyn's strong performance (72% expected, 22% higher) while exploring opportunities to close the 5-point gap with Portway at expected standard.</li>
+                <li><strong>Greater Depth Network:</strong> Create cross-school moderation and planning sessions for Year 6 teachers to share approaches for developing pupils working at greater depth, leveraging Portway and Selwyn's success.</li>
+                <li><strong>Carpenters Writing Focus:</strong> Investigate specific barriers to combined RWM attainment at Carpenters - likely writing is the limiting factor given reading and maths scaled scores at 105.</li>
+                <li><strong>Year 6 Transition:</strong> Ensure effective transition arrangements between NCL primaries and secondaries, using KS2 data to inform KS3 intervention planning (noting Progress 8 challenges at secondary level).</li>
+                <li><strong>Assessment and Moderation:</strong> Strengthen trust-wide assessment practices and writing moderation across all three schools to ensure consistency and accuracy of teacher assessment.</li>
+            </ol>
+        </div>
+        
+        <div class="note">
+            <strong>Important Note - Data Timeline:</strong> This primary schools data is from the 2023/24 academic year (published April 2025), making it one year older than the secondary schools data which covers 2024/25 (published October 2025). When comparing primary and secondary performance, consider this timing difference.
+        </div>
+        
+        <div class="partner-note">
+            <strong>* Partnership School:</strong> Carpenters Primary School is not part of the Newham Community Learning Trust. NCL serves as the school improvement partner for Carpenters, providing strategic support and guidance to improve outcomes.
+        </div>
+    </div>
+    
+    <script>
+        // Animate bars on page load
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const bars = document.querySelectorAll('.bar');
+                bars.forEach(bar => {
+                    const targetWidth = bar.getAttribute('data-width');
+                    bar.style.width = targetWidth;
+                });
+            }, 100);
+        });
+    </script>
+</body>
+</html>
