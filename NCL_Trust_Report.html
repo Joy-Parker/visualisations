@@ -1,1 +1,574 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NCL Primary Schools - Absence & Demographics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            border-bottom: 3px solid #2c7873;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #2c7873;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .intro {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .section-header {
+            background-color: #2c7873;
+            color: white;
+            padding: 15px 20px;
+            margin: 30px 0 20px 0;
+            border-radius: 6px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .context-section {
+            background-color: #f8f9fa;
+            border-left: 4px solid #2c7873;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .context-section h2 {
+            color: #2c7873;
+            font-size: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .context-section h2::before {
+            content: "📊";
+            margin-right: 10px;
+        }
+        
+        .context-list {
+            list-style-position: inside;
+            color: #333;
+        }
+        
+        .context-list li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        .context-list strong {
+            color: #2c7873;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .metric-card {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+        
+        .metric-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .school-performance {
+            margin-bottom: 12px;
+        }
+        
+        .school-name {
+            font-size: 13px;
+            color: #333;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .bar-container {
+            background-color: #f0f0f0;
+            height: 28px;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .bar {
+            height: 100%;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 8px;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            transition: width 1s ease;
+        }
+        
+        .bar-portway { background-color: #0ea238; }
+        .bar-selwyn { background-color: #e83867; }
+        .bar-carpenters { background-color: #f39c12; }
+        .bar-la { background-color: #757575; }
+        .bar-england { background-color: #bdbdbd; }
+        
+        .benchmark-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .benchmark-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 3px;
+        }
+        
+        .recommendations {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .recommendations h2 {
+            color: #856404;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .recommendations ol {
+            margin-left: 20px;
+            color: #333;
+        }
+        
+        .recommendations li {
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+        
+        .recommendations strong {
+            color: #856404;
+        }
+        
+        .note {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #1565c0;
+            line-height: 1.6;
+        }
+        
+        .partner-note {
+            background-color: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin-top: 15px;
+            font-size: 13px;
+            color: #e65100;
+            line-height: 1.6;
+        }
+        
+        @media (max-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Newham Community Learning - Primary Schools Absence & Demographics</h1>
+            <p class="intro">
+                This report presents absence data from 2023/24 and demographic data from 2024/25 for NCL's two primary schools 
+                (Portway Primary School and Selwyn Primary School) plus Carpenters Primary School, for which NCL serves as school 
+                improvement partner. Data is from the DfE Compare Schools service. All comparisons include Local Authority (Newham) 
+                and England averages where available.
+            </p>
+        </div>
+        
+        <div class="context-section">
+            <h2>Context & Key Observations</h2>
+            <ul class="context-list">
+                <li><strong>Persistent Absence Challenge:</strong> All three schools exceed England average (14.6%) for persistent absence, with Selwyn at 22.9%, Carpenters at 21.6%, and Portway at 19.8%</li>
+                <li><strong>Overall Absence Above National:</strong> Portway (6.2%), Carpenters (6.5%) and Selwyn (6.9%) all exceed England average (5.5%), though close to LA average (6%)</li>
+                <li><strong>High EAL Context:</strong> All three schools serve significantly higher proportions of EAL pupils than national average (23.4%) - Selwyn 83.10%, Carpenters 70.10%, Portway 68.70%</li>
+                <li><strong>Elevated Deprivation:</strong> FSM eligibility ranges from 37.90% (Portway) to 45.64% (Carpenters), all substantially above England average (26.3%)</li>
+                <li><strong>SEN Variation:</strong> Carpenters (21.30% total SEN) and Selwyn (20.13% total SEN) exceed national averages, while Portway (11.88%) is below</li>
+                <li><strong>Small School Context:</strong> Carpenters (338 pupils) and Selwyn (462 pupils) are smaller than Portway (547 pupils), which may impact statistical volatility</li>
+                <li><strong>Gender Balance:</strong> All three schools show relatively balanced gender distribution, close to national averages</li>
+            </ul>
+        </div>
+        
+        <div class="section-header">Pupil Absence 2023/24</div>
+        
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-title">Overall Absence Rate (%)</div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Portway Primary School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-portway" style="width: 0%;" data-width="62%">6.2%</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Carpenters Primary School *</div>
+                    <div class="bar-container">
+                        <div class="bar bar-carpenters" style="width: 0%;" data-width="65%">6.5%</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Selwyn Primary School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-selwyn" style="width: 0%;" data-width="69%">6.9%</div>
+                    </div>
+                </div>
+                
+                <div class="benchmark-section">
+                    <div class="school-performance">
+                        <div class="benchmark-label">Local Authority Average</div>
+                        <div class="bar-container">
+                            <div class="bar bar-la" style="width: 0%;" data-width="60%">6%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="school-performance">
+                        <div class="benchmark-label">England Average</div>
+                        <div class="bar-container">
+                            <div class="bar bar-england" style="width: 0%;" data-width="55%">5.5%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-title">Persistent Absence Rate (%)</div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Portway Primary School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-portway" style="width: 0%;" data-width="79.2%">19.8%</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Carpenters Primary School *</div>
+                    <div class="bar-container">
+                        <div class="bar bar-carpenters" style="width: 0%;" data-width="86.4%">21.6%</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Selwyn Primary School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-selwyn" style="width: 0%;" data-width="91.6%">22.9%</div>
+                    </div>
+                </div>
+                
+                <div class="benchmark-section">
+                    <div class="school-performance">
+                        <div class="benchmark-label">Local Authority Average</div>
+                        <div class="bar-container">
+                            <div class="bar bar-la" style="width: 0%;" data-width="74%">18.5%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="school-performance">
+                        <div class="benchmark-label">England Average</div>
+                        <div class="bar-container">
+                            <div class="bar bar-england" style="width: 0%;" data-width="58.4%">14.6%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-header">Pupil Demographics 2024/25</div>
+        
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-title">Total Number of Pupils on Roll</div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Portway Primary School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-portway" style="width: 0%;" data-width="100%">547</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Selwyn Primary School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-selwyn" style="width: 0%;" data-width="84.5%">462</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Carpenters Primary School *</div>
+                    <div class="bar-container">
+                        <div class="bar bar-carpenters" style="width: 0%;" data-width="61.8%">338</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-title">Pupils with SEN Education, Health & Care Plan (%)</div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Selwyn Primary School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-selwyn" style="width: 0%;" data-width="93.4%">5.84%</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Carpenters Primary School *</div>
+                    <div class="bar-container">
+                        <div class="bar bar-carpenters" style="width: 0%;" data-width="80.5%">5.03%</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Portway Primary School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-portway" style="width: 0%;" data-width="43.8%">2.74%</div>
+                    </div>
+                </div>
+                
+                <div class="benchmark-section">
+                    <div class="school-performance">
+                        <div class="benchmark-label">England Average</div>
+                        <div class="bar-container">
+                            <div class="bar bar-england" style="width: 0%;" data-width="56%">3.5%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-title">Pupils with SEN Support (%)</div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Carpenters Primary School *</div>
+                    <div class="bar-container">
+                        <div class="bar bar-carpenters" style="width: 0%;" data-width="97.6%">16.27%</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Selwyn Primary School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-selwyn" style="width: 0%;" data-width="85.7%">14.29%</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Portway Primary School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-portway" style="width: 0%;" data-width="54.8%">9.14%</div>
+                    </div>
+                </div>
+                
+                <div class="benchmark-section">
+                    <div class="school-performance">
+                        <div class="benchmark-label">England Average</div>
+                        <div class="bar-container">
+                            <div class="bar bar-england" style="width: 0%;" data-width="90%">15%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-title">Pupils whose First Language is not English (%)</div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Selwyn Primary School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-selwyn" style="width: 0%;" data-width="83.1%">83.10%</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Carpenters Primary School *</div>
+                    <div class="bar-container">
+                        <div class="bar bar-carpenters" style="width: 0%;" data-width="70.1%">70.10%</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Portway Primary School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-portway" style="width: 0%;" data-width="68.7%">68.70%</div>
+                    </div>
+                </div>
+                
+                <div class="benchmark-section">
+                    <div class="school-performance">
+                        <div class="benchmark-label">England Average</div>
+                        <div class="bar-container">
+                            <div class="bar bar-england" style="width: 0%;" data-width="23.4%">23.4%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-title">Pupils Eligible for Free School Meals (past 6 years) (%)</div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Carpenters Primary School *</div>
+                    <div class="bar-container">
+                        <div class="bar bar-carpenters" style="width: 0%;" data-width="91.3%">45.64%</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Selwyn Primary School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-selwyn" style="width: 0%;" data-width="79.9%">39.95%</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Portway Primary School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-portway" style="width: 0%;" data-width="75.8%">37.90%</div>
+                    </div>
+                </div>
+                
+                <div class="benchmark-section">
+                    <div class="school-performance">
+                        <div class="benchmark-label">England Average</div>
+                        <div class="bar-container">
+                            <div class="bar bar-england" style="width: 0%;" data-width="52.6%">26.3%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-title">Gender Distribution - Girls (%)</div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Carpenters Primary School *</div>
+                    <div class="bar-container">
+                        <div class="bar bar-carpenters" style="width: 0%;" data-width="53.25%">53.25%</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Selwyn Primary School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-selwyn" style="width: 0%;" data-width="49.13%">49.13%</div>
+                    </div>
+                </div>
+                
+                <div class="school-performance">
+                    <div class="school-name">Portway Primary School</div>
+                    <div class="bar-container">
+                        <div class="bar bar-portway" style="width: 0%;" data-width="47.71%">47.71%</div>
+                    </div>
+                </div>
+                
+                <div class="benchmark-section">
+                    <div class="school-performance">
+                        <div class="benchmark-label">England Average</div>
+                        <div class="bar-container">
+                            <div class="bar bar-england" style="width: 0%;" data-width="49.1%">49.1%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="recommendations">
+            <h2>Strategic Recommendations</h2>
+            <ol>
+                <li><strong>Persistent Absence Action Plan:</strong> Develop trust-wide strategy to address persistent absence, which exceeds national average across all schools. Focus on early intervention, family engagement, and barriers analysis. Share successful approaches from Portway (lowest at 19.8%).</li>
+                <li><strong>Carpenters Intensive Support:</strong> Provide targeted support to Carpenters given highest FSM (45.64%), elevated SEN (21.30% combined), and persistent absence (21.6%). Consider additional pastoral resources and family support services.</li>
+                <li><strong>Selwyn Attendance Focus:</strong> Priority intervention needed at Selwyn where persistent absence (22.9%) is highest across all three schools, despite strong KS2 attainment outcomes.</li>
+                <li><strong>EAL Excellence Sharing:</strong> Leverage the strong EAL practice evident across all schools (68-83% EAL vs 23.4% national) as a trust strength. Document and share effective strategies for supporting multilingual learners.</li>
+                <li><strong>SEN Provision Review:</strong> Investigate variation in SEN identification and support across schools - Portway 11.88% total SEN vs Carpenters 21.30%. Ensure consistency in identification processes and intervention quality.</li>
+                <li><strong>Attendance and Attainment Analysis:</strong> Examine correlation between attendance patterns and KS2 outcomes. Carpenters' combination of high absence and lower attainment suggests this as a key improvement lever.</li>
+                <li><strong>Deprivation-Responsive Practice:</strong> With FSM rates 11-19 points above national average, ensure all schools have robust pupil premium strategies, targeted interventions, and appropriate pastoral support systems.</li>
+                <li><strong>Cross-School Learning:</strong> Establish regular forums for attendance leads and pastoral teams to share strategies, particularly around engaging families from diverse linguistic and cultural backgrounds.</li>
+            </ol>
+        </div>
+        
+        <div class="note">
+            <strong>Important Notes:</strong>
+            <ul style="margin-top: 10px; margin-left: 20px;">
+                <li>Absence data is from academic year 2023/24</li>
+                <li>Demographic data is from academic year 2024/25 (current year)</li>
+                <li>These schools serve communities with significantly higher levels of deprivation and linguistic diversity than national averages</li>
+                <li>Small school context (particularly Carpenters at 338 pupils) means percentages can be volatile year-on-year</li>
+            </ul>
+        </div>
+        
+        <div class="partner-note">
+            <strong>* Partnership School:</strong> Carpenters Primary School is not part of the Newham Community Learning Trust. NCL serves as the school improvement partner for Carpenters, providing strategic support and guidance to improve outcomes.
+        </div>
+    </div>
+    
+    <script>
+        // Animate bars on page load
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const bars = document.querySelectorAll('.bar');
+                bars.forEach(bar => {
+                    const targetWidth = bar.getAttribute('data-width');
+                    bar.style.width = targetWidth;
+                });
+            }, 100);
+        });
+    </script>
+</body>
+</html>
