@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Box Hill Infiltration Study - Variable Comparison</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            min-height: 100vh;
+            padding: 30px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.8em;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        .charts-wrapper {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .chart-container {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            width: 550px;
+        }
+        .chart-container.main {
+            width: 700px;
+        }
+        .chart-title {
+            text-align: center;
+            color: #34495e;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+        .canvas-wrapper {
+            position: relative;
+            height: 450px;
+        }
+        .canvas-wrapper.large {
+            height: 500px;
+        }
+        .data-table {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px 20px;
+            text-align: center;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        th {
+            background: #3498db;
+            color: white;
+            font-weight: 600;
+        }
+        th:first-child {
+            border-radius: 8px 0 0 0;
+        }
+        th:last-child {
+            border-radius: 0 8px 0 0;
+        }
+        tr:hover {
+            background: #f8f9fa;
+        }
+        .site-1 { color: #e74c3c; font-weight: 600; }
+        .site-2 { color: #3498db; font-weight: 600; }
+        .site-3 { color: #2ecc71; font-weight: 600; }
+        .highlight { background-color: #fff9e6; }
+        .legend-note {
+            text-align: center;
+            color: #95a5a6;
+            font-size: 0.9em;
+            margin-top: 20px;
+            font-style: italic;
+        }
+        .analysis-box {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+        .analysis-box h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .analysis-box p {
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        .key-finding {
+            background: #e8f6f3;
+            border-left: 4px solid #1abc9c;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .key-finding strong {
+            color: #16a085;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Water Infiltration Study: Box Hill, Surrey</h1>
+        <p class="subtitle">Comparison of Environmental Variables and Infiltration Rates Across Three Study Sites</p>
+        
+        <div class="charts-wrapper">
+            <div class="chart-container main">
+                <h2 class="chart-title">Radar Chart: Normalised Values (0-100% scale)</h2>
+                <div class="canvas-wrapper large">
+                    <canvas id="radarChartNorm"></canvas>
+                </div>
+                <p class="legend-note">All variables scaled relative to maximum value across sites for fair comparison</p>
+            </div>
+        </div>
+
+        <div class="charts-wrapper" style="margin-top: 30px;">
+            <div class="chart-container">
+                <h2 class="chart-title">Independent Variables Only</h2>
+                <div class="canvas-wrapper">
+                    <canvas id="radarVarsOnly"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <h2 class="chart-title">Raw Values (Original Units)</h2>
+                <div class="canvas-wrapper">
+                    <canvas id="radarChartRaw"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="data-table">
+            <h2 class="chart-title">Complete Data Table</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Site</th>
+                        <th>Gradient (°)</th>
+                        <th>Vegetation Density (%)</th>
+                        <th>Footfall (mean count)</th>
+                        <th>Infiltration Rate (mm/hr)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="site-1">Site 1</td>
+                        <td>0.58</td>
+                        <td>33.8</td>
+                        <td>1.16</td>
+                        <td>36.51</td>
+                    </tr>
+                    <tr>
+                        <td class="site-2">Site 2</td>
+                        <td>7.16</td>
+                        <td>39.3</td>
+                        <td>1.00</td>
+                        <td class="highlight"><strong>99.31</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="site-3">Site 3</td>
+                        <td>1.16</td>
+                        <td>45.0</td>
+                        <td>7.16</td>
+                        <td>58.72</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="analysis-box">
+            <h3>Key Observations for Analysis</h3>
+            
+            <div class="key-finding">
+                <strong>Notable Pattern:</strong> Site 2, with the steepest gradient (7.16°) and lowest footfall (1.0), shows the highest mean infiltration rate (99.31 mm/hr) — nearly three times that of Site 1.
+            </div>
+
+            <p><strong>Site 1</strong> exhibits the flattest terrain (0.58°) with the lowest vegetation density (33.8%) and moderate footfall (1.16). Despite the gentle slope which might reduce surface runoff, this site has the lowest infiltration rate (36.51 mm/hr), possibly due to reduced vegetation cover limiting soil structure and organic matter.</p>
+            
+            <p><strong>Site 2</strong> shows the steepest gradient (7.16°) with moderate vegetation (39.3%) and the lowest footfall (1.0). Contrary to what might be expected, this site has the highest infiltration rate (99.31 mm/hr). The minimal soil compaction from low footfall, combined with reasonable vegetation cover, may create favourable conditions for water absorption despite the slope.</p>
+            
+            <p><strong>Site 3</strong> combines a gentle slope (1.16°) with the highest vegetation density (45%) but significantly higher footfall (7.16). The infiltration rate (58.72 mm/hr) falls between the other sites, suggesting the benefits of high vegetation may be partially offset by soil compaction from heavy foot traffic.</p>
+
+            <div class="key-finding">
+                <strong>Hypothesis Testing:</strong> The data suggests footfall may have a stronger negative impact on infiltration than gradient has a positive impact. Low footfall at Site 2 correlates with high infiltration, while high footfall at Site 3 correlates with reduced infiltration despite having the best vegetation cover.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Raw data from the study
+        const sites = ['Site 1', 'Site 2', 'Site 3'];
+        
+        const rawData = {
+            gradient: [0.58, 7.16, 1.16],
+            vegetation: [33.8, 39.3, 45],
+            footfall: [1.16, 1.0, 7.16],
+            infiltration: [36.51, 99.31, 58.72]
+        };
+
+        // Calculate max values for normalisation
+        const maxValues = {
+            gradient: Math.max(...rawData.gradient),
+            vegetation: Math.max(...rawData.vegetation),
+            footfall: Math.max(...rawData.footfall),
+            infiltration: Math.max(...rawData.infiltration)
+        };
+
+        // Normalise to 0-100 scale
+        const normalise = (value, max) => (value / max) * 100;
+
+        // Colour schemes
+        const colours = {
+            site1: {
+                bg: 'rgba(231, 76, 60, 0.2)',
+                border: 'rgba(231, 76, 60, 1)'
+            },
+            site2: {
+                bg: 'rgba(52, 152, 219, 0.2)',
+                border: 'rgba(52, 152, 219, 1)'
+            },
+            site3: {
+                bg: 'rgba(46, 204, 113, 0.2)',
+                border: 'rgba(46, 204, 113, 1)'
+            }
+        };
+
+        // Create dataset for a site
+        function createDataset(siteName, data, colour) {
+            return {
+                label: siteName,
+                data: data,
+                backgroundColor: colour.bg,
+                borderColor: colour.border,
+                borderWidth: 2,
+                pointBackgroundColor: colour.border,
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: colour.border,
+                pointRadius: 4
+            };
+        }
+
+        // Main normalised radar chart (all 4 variables)
+        const normalisedAllData = {
+            labels: ['Gradient', 'Vegetation Density', 'Footfall', 'Infiltration Rate'],
+            datasets: [
+                createDataset('Site 1', [
+                    normalise(rawData.gradient[0], maxValues.gradient),
+                    normalise(rawData.vegetation[0], maxValues.vegetation),
+                    normalise(rawData.footfall[0], maxValues.footfall),
+                    normalise(rawData.infiltration[0], maxValues.infiltration)
+                ], colours.site1),
+                createDataset('Site 2', [
+                    normalise(rawData.gradient[1], maxValues.gradient),
+                    normalise(rawData.vegetation[1], maxValues.vegetation),
+                    normalise(rawData.footfall[1], maxValues.footfall),
+                    normalise(rawData.infiltration[1], maxValues.infiltration)
+                ], colours.site2),
+                createDataset('Site 3', [
+                    normalise(rawData.gradient[2], maxValues.gradient),
+                    normalise(rawData.vegetation[2], maxValues.vegetation),
+                    normalise(rawData.footfall[2], maxValues.footfall),
+                    normalise(rawData.infiltration[2], maxValues.infiltration)
+                ], colours.site3)
+            ]
+        };
+
+        // Independent variables only (3 variables)
+        const varsOnlyData = {
+            labels: ['Gradient', 'Vegetation Density', 'Footfall'],
+            datasets: [
+                createDataset('Site 1', [
+                    normalise(rawData.gradient[0], maxValues.gradient),
+                    normalise(rawData.vegetation[0], maxValues.vegetation),
+                    normalise(rawData.footfall[0], maxValues.footfall)
+                ], colours.site1),
+                createDataset('Site 2', [
+                    normalise(rawData.gradient[1], maxValues.gradient),
+                    normalise(rawData.vegetation[1], maxValues.vegetation),
+                    normalise(rawData.footfall[1], maxValues.footfall)
+                ], colours.site2),
+                createDataset('Site 3', [
+                    normalise(rawData.gradient[2], maxValues.gradient),
+                    normalise(rawData.vegetation[2], maxValues.vegetation),
+                    normalise(rawData.footfall[2], maxValues.footfall)
+                ], colours.site3)
+            ]
+        };
+
+        // Raw values chart
+        const rawValuesData = {
+            labels: ['Gradient (°)', 'Vegetation (%)', 'Footfall', 'Infiltration (mm/hr)'],
+            datasets: [
+                createDataset('Site 1', [
+                    rawData.gradient[0],
+                    rawData.vegetation[0],
+                    rawData.footfall[0],
+                    rawData.infiltration[0]
+                ], colours.site1),
+                createDataset('Site 2', [
+                    rawData.gradient[1],
+                    rawData.vegetation[1],
+                    rawData.footfall[1],
+                    rawData.infiltration[1]
+                ], colours.site2),
+                createDataset('Site 3', [
+                    rawData.gradient[2],
+                    rawData.vegetation[2],
+                    rawData.footfall[2],
+                    rawData.infiltration[2]
+                ], colours.site3)
+            ]
+        };
+
+        // Chart options
+        const baseOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        font: { size: 12, weight: 'bold' }
+                    }
+                }
+            },
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    pointLabels: {
+                        font: { size: 12, weight: 'bold' }
+                    },
+                    ticks: {
+                        font: { size: 10 }
+                    }
+                }
+            }
+        };
+
+        const normalisedOptions = {
+            ...baseOptions,
+            scales: {
+                r: {
+                    ...baseOptions.scales.r,
+                    max: 100,
+                    ticks: {
+                        stepSize: 20,
+                        callback: function(value) { return value + '%'; },
+                        font: { size: 10 }
+                    }
+                }
+            }
+        };
+
+        // Create charts
+        new Chart(document.getElementById('radarChartNorm'), {
+            type: 'radar',
+            data: normalisedAllData,
+            options: normalisedOptions
+        });
+
+        new Chart(document.getElementById('radarVarsOnly'), {
+            type: 'radar',
+            data: varsOnlyData,
+            options: normalisedOptions
+        });
+
+        new Chart(document.getElementById('radarChartRaw'), {
+            type: 'radar',
+            data: rawValuesData,
+            options: baseOptions
+        });
+    </script>
+</body>
+</html>
