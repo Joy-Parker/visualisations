@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Box Hill Infiltration Study - Individual Site Radar Charts</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            min-height: 100vh;
+            padding: 30px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.8em;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        .charts-wrapper {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+        .chart-container {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        .chart-container.site-1 {
+            border-top: 5px solid #e74c3c;
+        }
+        .chart-container.site-2 {
+            border-top: 5px solid #3498db;
+        }
+        .chart-container.site-3 {
+            border-top: 5px solid #2ecc71;
+        }
+        .chart-title {
+            text-align: center;
+            margin-bottom: 5px;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+        .site-1 .chart-title { color: #c0392b; }
+        .site-2 .chart-title { color: #2980b9; }
+        .site-3 .chart-title { color: #27ae60; }
+        .chart-subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+        .canvas-wrapper {
+            position: relative;
+            height: 350px;
+        }
+        .data-values {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #ecf0f1;
+        }
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f5f5f5;
+            font-size: 0.9em;
+        }
+        .data-row:last-child {
+            border-bottom: none;
+        }
+        .data-label {
+            color: #555;
+        }
+        .data-value {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .infiltration-row {
+            background: #f8f9fa;
+            margin: 10px -10px 0 -10px;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .infiltration-row .data-label {
+            font-weight: 600;
+        }
+        .site-1 .infiltration-row .data-value { color: #e74c3c; }
+        .site-2 .infiltration-row .data-value { color: #3498db; }
+        .site-3 .infiltration-row .data-value { color: #2ecc71; }
+
+        .methodology-box {
+            background: white;
+            border-radius: 16px;
+            padding: 25px 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-top: 30px;
+            border-left: 5px solid #3498db;
+        }
+        .methodology-box h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.15em;
+        }
+        .methodology-content {
+            color: #555;
+            line-height: 1.8;
+        }
+        .methodology-content p {
+            margin-bottom: 12px;
+        }
+        .methodology-content ul {
+            margin: 12px 0 12px 25px;
+        }
+        .methodology-content li {
+            margin-bottom: 6px;
+        }
+        .formula {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 12px 20px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            color: #2c3e50;
+            text-align: center;
+        }
+        .methodology-content .note {
+            background: #fef9e7;
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-top: 15px;
+            font-size: 0.9em;
+            border-left: 4px solid #f39c12;
+        }
+
+        .comparison-box {
+            background: white;
+            border-radius: 16px;
+            padding: 25px 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+        .comparison-box h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.15em;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .comparison-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .site-analysis {
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .site-analysis.site-1 {
+            background: rgba(231, 76, 60, 0.08);
+            border: 1px solid rgba(231, 76, 60, 0.2);
+        }
+        .site-analysis.site-2 {
+            background: rgba(52, 152, 219, 0.08);
+            border: 1px solid rgba(52, 152, 219, 0.2);
+        }
+        .site-analysis.site-3 {
+            background: rgba(46, 204, 113, 0.08);
+            border: 1px solid rgba(46, 204, 113, 0.2);
+        }
+        .site-analysis h4 {
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+        .site-analysis.site-1 h4 { color: #c0392b; }
+        .site-analysis.site-2 h4 { color: #2980b9; }
+        .site-analysis.site-3 h4 { color: #27ae60; }
+        .site-analysis p {
+            font-size: 0.9em;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 1000px) {
+            .charts-wrapper {
+                grid-template-columns: 1fr;
+            }
+            .comparison-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Water Infiltration Study: Box Hill, Surrey</h1>
+        <p class="subtitle">Individual Location Profiles: Variables and Infiltration Rates</p>
+        
+        <div class="charts-wrapper">
+            <!-- Location 1 -->
+            <div class="chart-container site-1">
+                <h2 class="chart-title">Location 1</h2>
+                <div class="canvas-wrapper">
+                    <canvas id="radarSite1"></canvas>
+                </div>
+                <div class="data-values">
+                    <div class="data-row">
+                        <span class="data-label">Gradient</span>
+                        <span class="data-value">0.58°</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Vegetation Density</span>
+                        <span class="data-value">33.8%</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">People Count</span>
+                        <span class="data-value">1.16</span>
+                    </div>
+                    <div class="data-row infiltration-row">
+                        <span class="data-label">Infiltration Rate</span>
+                        <span class="data-value">36.51 mm/hr</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Location 2 -->
+            <div class="chart-container site-2">
+                <h2 class="chart-title">Location 2</h2>
+                <div class="canvas-wrapper">
+                    <canvas id="radarSite2"></canvas>
+                </div>
+                <div class="data-values">
+                    <div class="data-row">
+                        <span class="data-label">Gradient</span>
+                        <span class="data-value">7.16°</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Vegetation Density</span>
+                        <span class="data-value">39.3%</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">People Count</span>
+                        <span class="data-value">1.00</span>
+                    </div>
+                    <div class="data-row infiltration-row">
+                        <span class="data-label">Infiltration Rate</span>
+                        <span class="data-value">99.31 mm/hr</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Location 3 -->
+            <div class="chart-container site-3">
+                <h2 class="chart-title">Location 3</h2>
+                <div class="canvas-wrapper">
+                    <canvas id="radarSite3"></canvas>
+                </div>
+                <div class="data-values">
+                    <div class="data-row">
+                        <span class="data-label">Gradient</span>
+                        <span class="data-value">1.16°</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Vegetation Density</span>
+                        <span class="data-value">45.0%</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">People Count</span>
+                        <span class="data-value">7.16</span>
+                    </div>
+                    <div class="data-row infiltration-row">
+                        <span class="data-label">Infiltration Rate</span>
+                        <span class="data-value">58.72 mm/hr</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Methodology Explanation -->
+        <div class="methodology-box">
+            <h3>Methodology Note: Why Use Normalised Values?</h3>
+            <div class="methodology-content">
+                <p>The four variables displayed on each radar chart are measured in different units and have different numerical ranges:</p>
+                <ul>
+                    <li><strong>Gradient:</strong> 0.58° to 7.16° (degrees)</li>
+                    <li><strong>Vegetation density:</strong> 33.8% to 45% (percentage cover)</li>
+                    <li><strong>People count:</strong> 1.0 to 7.16 (mean people count)</li>
+                    <li><strong>Infiltration rate:</strong> 36.51 to 99.31 (mm/hr)</li>
+                </ul>
+                <p>Plotting these raw values together would create a misleading visual comparison, as variables with larger numerical values would appear to dominate the chart regardless of their actual significance.</p>
+                <p><strong>Normalisation</strong> solves this problem by converting each variable to a common 0-100% scale. Each value is expressed as a percentage of the maximum value recorded for that variable across all three locations:</p>
+                <div class="formula">
+                    Normalised value = (Observed value ÷ Maximum value across all locations) × 100
+                </div>
+                <p>For example, Location 2's infiltration rate of 99.31 mm/hr is the highest recorded, so it becomes 100%. Location 1's infiltration rate of 36.51 mm/hr becomes (36.51 ÷ 99.31) × 100 = 36.8%.</p>
+                <p>This transformation preserves the relative differences between locations while enabling direct visual comparison of variables that would otherwise be incompatible. It allows us to compare the "shape" of each location's profile and identify which variables are relatively high or low at each location.</p>
+            </div>
+        </div>
+
+        <!-- Site Comparison Analysis -->
+        <div class="comparison-box">
+            <h3>Comparative Analysis</h3>
+            <div class="comparison-content">
+                <div class="site-analysis site-1">
+                    <h4>Location 1 Profile</h4>
+                    <p>Shows the smallest radar "footprint" overall. The flattest gradient (8% of max), lowest vegetation density (75% of max), and low people count (16% of max) combine to produce the lowest infiltration rate (37% of max). The compact shape suggests conditions less favourable for water infiltration.</p>
+                </div>
+                <div class="site-analysis site-2">
+                    <h4>Location 2 Profile</h4>
+                    <p>Displays a distinctive elongated shape with maximum gradient (100%) and maximum infiltration (100%), but minimum people count (14%). This profile suggests that low soil compaction from minimal foot traffic may be the key factor enabling high infiltration, despite—or perhaps because of—the steep slope.</p>
+                </div>
+                <div class="site-analysis site-3">
+                    <h4>Location 3 Profile</h4>
+                    <p>Shows maximum vegetation (100%) and maximum people count (100%), but only moderate infiltration (59% of max). This suggests the benefits of high vegetation cover may be partially negated by soil compaction from heavy foot traffic—a key finding for the hypothesis.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Raw data
+        const data = {
+            gradient: [0.58, 7.16, 1.16],
+            vegetation: [33.8, 39.3, 45],
+            footfall: [1.16, 1.0, 7.16],
+            infiltration: [36.51, 99.31, 58.72]
+        };
+
+        // Calculate max values for normalisation
+        const maxValues = {
+            gradient: Math.max(...data.gradient),
+            vegetation: Math.max(...data.vegetation),
+            footfall: Math.max(...data.footfall),
+            infiltration: Math.max(...data.infiltration)
+        };
+
+        // Normalise function
+        const normalise = (value, max) => (value / max) * 100;
+
+        // Normalised data for each site
+        const site1Data = [
+            normalise(data.gradient[0], maxValues.gradient),
+            normalise(data.vegetation[0], maxValues.vegetation),
+            normalise(data.footfall[0], maxValues.footfall),
+            normalise(data.infiltration[0], maxValues.infiltration)
+        ];
+
+        const site2Data = [
+            normalise(data.gradient[1], maxValues.gradient),
+            normalise(data.vegetation[1], maxValues.vegetation),
+            normalise(data.footfall[1], maxValues.footfall),
+            normalise(data.infiltration[1], maxValues.infiltration)
+        ];
+
+        const site3Data = [
+            normalise(data.gradient[2], maxValues.gradient),
+            normalise(data.vegetation[2], maxValues.vegetation),
+            normalise(data.footfall[2], maxValues.footfall),
+            normalise(data.infiltration[2], maxValues.infiltration)
+        ];
+
+        const labels = ['Gradient', 'Vegetation Density', 'People Count', 'Infiltration Rate'];
+
+        // Chart options
+        const getOptions = (colour) => ({
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.label}: ${context.raw.toFixed(1)}%`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    max: 100,
+                    ticks: {
+                        stepSize: 25,
+                        callback: function(value) { return value + '%'; },
+                        font: { size: 10 },
+                        backdropColor: 'transparent'
+                    },
+                    pointLabels: {
+                        font: { size: 12, weight: 'bold' },
+                        color: '#2c3e50'
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    },
+                    angleLines: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    }
+                }
+            }
+        });
+
+        // Create Site 1 radar
+        new Chart(document.getElementById('radarSite1'), {
+            type: 'radar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: site1Data,
+                    backgroundColor: 'rgba(231, 76, 60, 0.25)',
+                    borderColor: 'rgba(231, 76, 60, 1)',
+                    borderWidth: 3,
+                    pointBackgroundColor: 'rgba(231, 76, 60, 1)',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5
+                }]
+            },
+            options: getOptions('#e74c3c')
+        });
+
+        // Create Site 2 radar
+        new Chart(document.getElementById('radarSite2'), {
+            type: 'radar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: site2Data,
+                    backgroundColor: 'rgba(52, 152, 219, 0.25)',
+                    borderColor: 'rgba(52, 152, 219, 1)',
+                    borderWidth: 3,
+                    pointBackgroundColor: 'rgba(52, 152, 219, 1)',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5
+                }]
+            },
+            options: getOptions('#3498db')
+        });
+
+        // Create Site 3 radar
+        new Chart(document.getElementById('radarSite3'), {
+            type: 'radar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: site3Data,
+                    backgroundColor: 'rgba(46, 204, 113, 0.25)',
+                    borderColor: 'rgba(46, 204, 113, 1)',
+                    borderWidth: 3,
+                    pointBackgroundColor: 'rgba(46, 204, 113, 1)',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5
+                }]
+            },
+            options: getOptions('#2ecc71')
+        });
+    </script>
+</body>
+</html>
