@@ -1,1 +1,601 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Software Request - Application Approval Workflow</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #1a2744;
+            --navy-light: #2d3f5f;
+            --teal: #0d9488;
+            --teal-light: #14b8a6;
+            --coral: #f97068;
+            --amber: #f59e0b;
+            --purple: #8b5cf6;
+            --slate: #64748b;
+            --light-bg: #f8fafc;
+            --white: #ffffff;
+            --success: #22c55e;
+            --danger: #ef4444;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: var(--navy);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+        
+        .header .subtitle {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--teal-light);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            animation: fadeIn 1s ease-out 0.3s both;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--white);
+            font-size: 0.85rem;
+        }
+        
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .legend-dot.requester { background: var(--teal); }
+        .legend-dot.sbm { background: var(--amber); }
+        .legend-dot.it { background: var(--purple); }
+        .legend-dot.dpo { background: var(--coral); }
+        .legend-dot.outcome { background: var(--success); }
+        
+        .flowchart {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 50px 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            animation: fadeInUp 0.8s ease-out 0.5s both;
+        }
+        
+        .section {
+            margin-bottom: 50px;
+        }
+        
+        .section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .section-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--slate);
+            margin-bottom: 25px;
+            padding-left: 15px;
+            border-left: 3px solid var(--teal);
+        }
+        
+        .flow-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .flow-node {
+            background: var(--light-bg);
+            border-radius: 16px;
+            padding: 20px 28px;
+            min-width: 220px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+        
+        .flow-node:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .flow-node.requester {
+            border-color: var(--teal);
+            background: linear-gradient(135deg, rgba(13, 148, 136, 0.1) 0%, rgba(20, 184, 166, 0.05) 100%);
+        }
+        
+        .flow-node.sbm {
+            border-color: var(--amber);
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%);
+        }
+        
+        .flow-node.it {
+            border-color: var(--purple);
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%);
+        }
+        
+        .flow-node.dpo {
+            border-color: var(--coral);
+            background: linear-gradient(135deg, rgba(249, 112, 104, 0.1) 0%, rgba(249, 112, 104, 0.05) 100%);
+        }
+        
+        .flow-node.approved {
+            border-color: var(--success);
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(34, 197, 94, 0.05) 100%);
+        }
+        
+        .flow-node.rejected {
+            border-color: var(--danger);
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(239, 68, 68, 0.05) 100%);
+        }
+        
+        .flow-node.dpia {
+            border-color: var(--amber);
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(245, 158, 11, 0.05) 100%);
+        }
+        
+        .node-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 1.5rem;
+        }
+        
+        .requester .node-icon { background: var(--teal); }
+        .sbm .node-icon { background: var(--amber); }
+        .it .node-icon { background: var(--purple); }
+        .dpo .node-icon { background: var(--coral); }
+        .approved .node-icon { background: var(--success); }
+        .rejected .node-icon { background: var(--danger); }
+        .dpia .node-icon { background: var(--amber); }
+        
+        .node-title {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 6px;
+            color: var(--navy);
+        }
+        
+        .node-desc {
+            font-size: 0.8rem;
+            color: var(--slate);
+            line-height: 1.4;
+        }
+        
+        .arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--slate);
+            font-size: 1.5rem;
+            animation: pulse 2s infinite;
+        }
+        
+        .arrow-down {
+            transform: rotate(90deg);
+            margin: 10px 0;
+        }
+        
+        .decision-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .decision-diamond {
+            width: 100px;
+            height: 100px;
+            background: var(--light-bg);
+            transform: rotate(45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid var(--slate);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .decision-diamond:hover {
+            border-color: var(--teal);
+            box-shadow: 0 5px 20px rgba(13, 148, 136, 0.2);
+        }
+        
+        .decision-text {
+            transform: rotate(-45deg);
+            font-weight: 600;
+            font-size: 0.75rem;
+            color: var(--navy);
+            text-align: center;
+        }
+        
+        .branch-container {
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            margin-top: 20px;
+        }
+        
+        .branch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .branch-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        
+        .branch-label.yes {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--success);
+        }
+        
+        .branch-label.no {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+        
+        .branch-label.dpia-label {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--amber);
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--coral);
+            color: white;
+            font-size: 0.65rem;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+        
+        .info-panel {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            border-radius: 16px;
+            padding: 30px;
+            margin-top: 40px;
+            color: var(--white);
+        }
+        
+        .info-panel h3 {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        
+        .info-item .check {
+            color: var(--teal-light);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        
+        .info-item p {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            opacity: 0.9;
+        }
+        
+        .flow-connector {
+            width: 2px;
+            height: 30px;
+            background: linear-gradient(to bottom, var(--slate), transparent);
+            margin: 0 auto;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        
+        .three-outcomes {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8rem; }
+            .flowchart { padding: 30px 20px; }
+            .flow-node { min-width: 180px; padding: 15px 20px; }
+            .branch-container { gap: 30px; }
+            .three-outcomes { gap: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📋 New Software Request - Application Approval Workflow</h1>
+            <p class="subtitle">RET Data Processors • Applications using personal data or AI tools</p>
+        </header>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <span class="legend-dot requester"></span>
+                <span>Requester</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-dot sbm"></span>
+                <span>SBM Review</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-dot it"></span>
+                <span>IT Review</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-dot dpo"></span>
+                <span>DPO Review</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-dot outcome"></span>
+                <span>Outcome</span>
+            </div>
+        </div>
+        
+        <div class="flowchart">
+            <!-- SECTION 1: Submission -->
+            <div class="section">
+                <div class="section-title">Stage 1 — Application Submission</div>
+                <div class="flow-row">
+                    <div class="flow-node requester">
+                        <div class="node-icon">👤</div>
+                        <div class="node-title">Staff Member</div>
+                        <div class="node-desc">Discusses request with SLT member before submitting</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="flow-node requester">
+                        <div class="node-icon">📝</div>
+                        <div class="node-title">Complete Form</div>
+                        <div class="node-desc">App name, email, school, type, cost, data requirements</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="flow-node requester">
+                        <span class="notification-badge">Auto Email</span>
+                        <div class="node-icon">✉️</div>
+                        <div class="node-title">Submission Confirmed</div>
+                        <div class="node-desc">Requester & Headteacher/SLT notified</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flow-connector"></div>
+            
+            <!-- SECTION 2: SBM Review -->
+            <div class="section">
+                <div class="section-title">Stage 2 — SBM Review</div>
+                <div class="flow-row">
+                    <div class="flow-node sbm">
+                        <span class="notification-badge">Notified</span>
+                        <div class="node-icon">📊</div>
+                        <div class="node-title">SBM Receives Request</div>
+                        <div class="node-desc">Reviews details, checks SLT approval, requests info if needed</div>
+                    </div>
+                </div>
+                <div class="decision-block">
+                    <div class="arrow arrow-down">→</div>
+                    <div class="decision-diamond">
+                        <span class="decision-text">SBM<br>Decision</span>
+                    </div>
+                    <div class="branch-container">
+                        <div class="branch">
+                            <span class="branch-label yes">✓ Approved</span>
+                            <div class="flow-node sbm" style="min-width: 160px;">
+                                <div class="node-desc">Proceeds to IT Review</div>
+                            </div>
+                        </div>
+                        <div class="branch">
+                            <span class="branch-label no">✗ Rejected</span>
+                            <div class="flow-node rejected" style="min-width: 160px;">
+                                <div class="node-desc">DPO notified • Process ends</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flow-connector"></div>
+            
+            <!-- SECTION 3: IT Review -->
+            <div class="section">
+                <div class="section-title">Stage 3 — IT Review (after SBM approval)</div>
+                <div class="flow-row">
+                    <div class="flow-node it">
+                        <span class="notification-badge">Notified</span>
+                        <div class="node-icon">💻</div>
+                        <div class="node-title">IT Team Assessment</div>
+                        <div class="node-desc">Technical feasibility, security, integration requirements</div>
+                    </div>
+                </div>
+                <div class="decision-block">
+                    <div class="arrow arrow-down">→</div>
+                    <div class="decision-diamond">
+                        <span class="decision-text">IT<br>Decision</span>
+                    </div>
+                    <div class="branch-container">
+                        <div class="branch">
+                            <span class="branch-label yes">✓ Approved</span>
+                            <div class="flow-node it" style="min-width: 160px;">
+                                <div class="node-desc">Proceeds to DPO Review<br>Finance & IT contacts notified</div>
+                            </div>
+                        </div>
+                        <div class="branch">
+                            <span class="branch-label no">✗ Rejected</span>
+                            <div class="flow-node rejected" style="min-width: 160px;">
+                                <div class="node-desc">DPO notified • Requester contacted</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flow-connector"></div>
+            
+            <!-- SECTION 4: DPO Review -->
+            <div class="section">
+                <div class="section-title">Stage 4 — DPO Review (after SBM & IT approval)</div>
+                <div class="flow-row">
+                    <div class="flow-node dpo">
+                        <span class="notification-badge">Notified</span>
+                        <div class="node-icon">🔒</div>
+                        <div class="node-title">DPO Assessment</div>
+                        <div class="node-desc">Data protection compliance, GDPR, risk assessment</div>
+                    </div>
+                </div>
+                <div class="decision-block">
+                    <div class="arrow arrow-down">→</div>
+                    <div class="decision-diamond">
+                        <span class="decision-text">DPO<br>Decision</span>
+                    </div>
+                    <div class="three-outcomes">
+                        <div class="branch">
+                            <span class="branch-label yes">✓ Approved</span>
+                            <div class="flow-node approved" style="min-width: 150px;">
+                                <div class="node-icon">✅</div>
+                                <div class="node-title">APPROVED</div>
+                                <div class="node-desc">Final confirmation sent to all parties</div>
+                            </div>
+                        </div>
+                        <div class="branch">
+                            <span class="branch-label no">✗ Rejected</span>
+                            <div class="flow-node rejected" style="min-width: 150px;">
+                                <div class="node-icon">❌</div>
+                                <div class="node-title">NOT APPROVED</div>
+                                <div class="node-desc">DPO contacts requester with reasons</div>
+                            </div>
+                        </div>
+                        <div class="branch">
+                            <span class="branch-label dpia-label">⚠ DPIA Required</span>
+                            <div class="flow-node dpia" style="min-width: 150px;">
+                                <div class="node-icon">📋</div>
+                                <div class="node-title">DPIA Process</div>
+                                <div class="node-desc">Full risk assessment for high-risk processing</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Key Points Panel -->
+            <div class="info-panel">
+                <h3>✓ Key Points to Remember</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="check">●</span>
+                        <p><strong>Sequential approval:</strong> SBM → IT → DPO (each stage only begins after previous approval)</p>
+                    </div>
+                    <div class="info-item">
+                        <span class="check">●</span>
+                        <p><strong>Rejection stops the process:</strong> DPO is notified and handles requester communication</p>
+                    </div>
+                    <div class="info-item">
+                        <span class="check">●</span>
+                        <p><strong>Headteacher/SLT aware:</strong> Notified automatically at the start once form submitted</p>
+                    </div>
+                    <div class="info-item">
+                        <span class="check">●</span>
+                        <p><strong>Automatic notifications:</strong> All relevant parties notified at each stage</p>
+                    </div>
+                    <div class="info-item">
+                        <span class="check">●</span>
+                        <p><strong>Full visibility:</strong> All approvers can see current status on the Monday board</p>
+                    </div>
+                    <div class="info-item">
+                        <span class="check">●</span>
+                        <p><strong>DPIA triggers:</strong> Large sensitive data, new CCTV, monitoring, or biometrics</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
